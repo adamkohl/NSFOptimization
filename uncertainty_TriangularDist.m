@@ -311,67 +311,67 @@ for i=1:size(designParameters)
         end
         figure(i)
         subplot(4,4,1)
-        title('normal 1')
+        title('Triangular 1')
         plot(pd1f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
-        title('normal 2')
+        title('Triangular 2')
         plot(pd2f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
-        title('normal 3')
+        title('Triangular 3')
         plot(pd3f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
-        title('normal 4')
+        title('Triangular 4')
         plot(pd4f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
-        title('normal 5')
+        title('Triangular 5')
         plot(pd5f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
-        title('normal 6')
+        title('Triangular 6')
         plot(pd6f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
-        title('normal 7')
+        title('Triangular 7')
         plot(pd7f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
-        title('normal 8')
+        title('Triangular 8')
         plot(pd8f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
-        title('normal 9')
+        title('Triangular 9')
         plot(pd9f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
-        title('normal 10')
+        title('Triangular 10')
         plot(pd10f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,11)
-        title('normal 11')
+        title('Triangular 11')
         plot(pd11f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
-        title('normal 12')
+        title('Triangular 12')
         plot(pd12f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
-        title('normal 13')
+        title('Triangular 13')
         plot(pd13f,'color',CM(color_index,:))
         
         legend(Legend);
