@@ -282,67 +282,67 @@ for i=1:size(designParameters)
         end
         figure(i)
         subplot(4,4,1)
-        title('normal 1')
+        title('lognormal 1')
         plot(pd1l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
-        title('normal 2')
+        title('lognormal 2')
         plot(pd2l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
-        title('normal 3')
+        title('lognormal 3')
         plot(pd3l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
-        title('normal 4')
+        title('lognormal 4')
         plot(pd4l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
-        title('normal 5')
+        title('lognormal 5')
         plot(pd5l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
-        title('normal 6')
+        title('lognormal 6')
         plot(pd6l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
-        title('normal 7')
+        title('lognormal 7')
         plot(pd7l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
-        title('normal 8')
+        title('lognormal 8')
         plot(pd8l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
-        title('normal 9')
+        title('lognormal 9')
         plot(pd9l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
-        title('normal 10')
+        title('lognormal 10')
         plot(pd10l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,11)
-        title('normal 11')
+        title('lognormal 11')
         plot(pd11l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
-        title('normal 12')
+        title('lognormal 12')
         plot(pd12l,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
-        title('normal 13')
+        title('lognormal 13')
         plot(pd13l,'color',CM(color_index,:))
         
         legend(Legend);
