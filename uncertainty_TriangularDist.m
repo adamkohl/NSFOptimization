@@ -279,6 +279,9 @@ for i=1:size(designParameters)
         pd8f = pdf(pd8,pd8_l:.01:pd8_u);
         pd9f = pdf(pd9,pd9_l:.01:pd9_u);
         pd10f = pdf(pd10,pd10_l:.01:pd10_u);
+        pd11f = pdf(pd11,pd11_l:.01:pd11_u);
+        pd12f = pdf(pd12,pd12_l:2.5:pd12_u);
+        pd13f = pdf(pd13,pd13_l:2.5:pd13_u);
         
         designParameters(8) = UDground_rec(j);
         designParameters(9) = UDground_trans(j);
