@@ -398,7 +398,9 @@ Design = [I1;I2;I3;I4];
 Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
 value_NoUtils = M;
 outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Exp2_ro',...
-    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs)
+    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs,...
+    'VariableNames',{'ValueNoUtilities' 'expUtilOutcome1' 'Exp1_ro' 'expUtilOutcome2'...
+    'Exp2_ro' 'expUtilOutcome3' 'Exp3_ro' 'expUtilOutcome4' 'Exp4_ro'})
 
 % for i=1:4
 % [r(i),p(i)]=corrcoef(Exp1_ro(i),Exp2_ro(i),'type','Spearman');   
