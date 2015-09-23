@@ -203,55 +203,68 @@ for i=1:size(designParameters)
         r13 = rand(1);
        
         pd1 = makedist('Tri',Dsat_trans-0.75*r1,Dsat_trans,Dsat_trans+0.75*r1);
-        pd1l = lognpdf([Dsat_trans-0.75*r1:0.01:Dsat_trans+0.75*r1],mean(pd1),std(pd1));
+%         pd1l = lognpdf([Dsat_trans-0.75*r1:0.01:Dsat_trans+0.75*r1],mean(pd1),std(pd1));
+        pd1l = lognpdf([Dsat_trans-0.75*r1:0.01:Dsat_trans+0.75*r1],mean(pd1),1.0);
          UDsat_trans(j) = datasample(pd1l,1);
         
         pd2 = makedist('Tri',Dsat_rec-0.75*r2,Dsat_rec,Dsat_rec+0.75*r2);
-        pd2l = lognpdf([Dsat_rec-0.75*r2:0.01:Dsat_rec+0.75*r2],mean(pd2),std(pd2));
+%         pd2l = lognpdf([Dsat_rec-0.75*r2:0.01:Dsat_rec+0.75*r2],mean(pd2),std(pd2));
+        pd2l = lognpdf([Dsat_rec-0.75*r2:0.01:Dsat_rec+0.75*r2],mean(pd2),1.0);
          UDsat_rec(j) = datasample(pd2l,1);
         
         pd3 = makedist('Tri',Dground_trans-0.75*r3,Dground_trans,Dground_trans+0.75*r3);
-        pd3l = lognpdf([Dground_trans-0.75*r3:0.01:Dground_trans+0.75*r3],mean(pd3),std(pd3));
+%         pd3l = lognpdf([Dground_trans-0.75*r3:0.01:Dground_trans+0.75*r3],mean(pd3),std(pd3));
+        pd3l = lognpdf([Dground_trans-0.75*r3:0.01:Dground_trans+0.75*r3],mean(pd3),1.0);
          UDground_trans(j) = datasample(pd3l,1);
         
         pd4 = makedist('Tri',Dground_rec-0.75*r4,Dground_rec,Dground_rec+0.75*r4);
-        pd4l = lognpdf([Dground_rec-0.75*r4:0.01:Dground_rec+0.75*r4],mean(pd4),std(pd4));
+%         pd4l = lognpdf([Dground_rec-0.75*r4:0.01:Dground_rec+0.75*r4],mean(pd4),std(pd4));
+        pd4l = lognpdf([Dground_rec-0.75*r4:0.01:Dground_rec+0.75*r4],mean(pd4),1.0);
          UDground_rec(j) = datasample(pd4l,1);
         
         pd5 = makedist('Tri',Sat_long-0.75*r5,Sat_long,Sat_long+0.75*r5);
-        pd5l = lognpdf([Sat_long-0.75*r5:0.01:Sat_long+0.75*r5],mean(pd5),std(pd5));
+%         pd5l = lognpdf([Sat_long-0.75*r5:0.01:Sat_long+0.75*r5],mean(pd5),std(pd5));
+        pd5l = lognpdf([Sat_long-0.75*r5:0.01:Sat_long+0.75*r5],mean(pd5),1.0);
          USat_long(j) = datasample(pd5l,1);
         
         pd6 = makedist('Tri',Ground_long-0.75*r6,Ground_long,Ground_long+0.75*r6);
-        pd6l = lognpdf([Ground_long-0.75*r6:0.01:Ground_long+0.75*r6],mean(pd6),std(pd6));
+%         pd6l = lognpdf([Ground_long-0.75*r6:0.01:Ground_long+0.75*r6],mean(pd6),std(pd6));
+        pd6l = lognpdf([Ground_long-0.75*r6:0.01:Ground_long+0.75*r6],mean(pd6),1.0);
          UGround_long(j) = datasample(pd6l,1);
         
         pd7 = makedist('Tri',Ground_lat-0.75*r7,Ground_lat,Ground_lat+0.75*r7);
-        pd7l = lognpdf([Ground_lat-0.75*r7:0.01:Ground_lat+0.75*r7],mean(pd7),std(pd7));
+%         pd7l = lognpdf([Ground_lat-0.75*r7:0.01:Ground_lat+0.75*r7],mean(pd7),std(pd7));
+        pd7l = lognpdf([Ground_lat-0.75*r7:0.01:Ground_lat+0.75*r7],mean(pd7),1.0);
          UGround_lat(j) = datasample(pd7l,1);
         
         pd8 = makedist('Tri',Ground_long_r-0.75*r8,Ground_long_r,Ground_long_r+0.75*r8);
-        pd8l = lognpdf([Ground_long_r-0.75*r8:0.01:Ground_long_r+0.75*r8],mean(pd8),std(pd8));
+%         pd8l = lognpdf([Ground_long_r-0.75*r8:0.01:Ground_long_r+0.75*r8],mean(pd8),std(pd8));
+        pd8l = lognpdf([Ground_long_r-0.75*r8:0.01:Ground_long_r+0.75*r8],mean(pd8),1.0);
          UGround_long_r(j) = datasample(pd8l,1); 
         
         pd9 = makedist('Tri',Ground_lat_r-0.75*r9,Ground_lat_r,Ground_lat_r+0.75*r9);
-        pd9l = lognpdf([Ground_lat_r-0.75*r9:0.01:Ground_lat_r+0.75*r9],mean(pd9),std(pd9));
+%         pd9l = lognpdf([Ground_lat_r-0.75*r9:0.01:Ground_lat_r+0.75*r9],mean(pd9),std(pd9));
+        pd9l = lognpdf([Ground_lat_r-0.75*r9:0.01:Ground_lat_r+0.75*r9],mean(pd9),1.0);
          UGround_lat_r(j) = datasample(pd9l,1); 
         
         pd10 = makedist('Tri',Pst-0.5*r10,Pst,Pst+0.75*r10);
-        pd10l = lognpdf([Pst-0.5*r10:0.01:Pst+0.75*r10],mean(pd10),std(pd10));
+%         pd10l = lognpdf([Pst-0.5*r10:0.01:Pst+0.75*r10],mean(pd10),std(pd10));
+        pd10l = lognpdf([Pst-0.5*r10:0.01:Pst+0.75*r10],mean(pd10),1.0);
          UPst(j) = datasample(pd10l,1);
         
         pd11 = makedist('Tri',Pgt-0.5*r11,Pgt,Pgt+0.75*r11);
-        pd11l = lognpdf([Pgt-0.5*r11:0.01:Pgt+0.75*r11],mean(pd11),std(pd11));
+%         pd11l = lognpdf([Pgt-0.5*r11:0.01:Pgt+0.75*r11],mean(pd11),std(pd11));
+        pd11l = lognpdf([Pgt-0.5*r11:0.01:Pgt+0.75*r11],mean(pd11),1.0);
          UPgt(j) = datasample(pd11l,1); 
         
         pd12 = makedist('Tri',f-10^4*r12,f,f+10^4*r12);
-        pd12l = lognpdf([f-10^4*r12:2.5:f+10^4*r12],mean(pd12),std(pd12));
+%         pd12l = lognpdf([f-10^4*r12:2.5:f+10^4*r12],mean(pd12),std(pd12));
+        pd12l = lognpdf([f-10^4*r12:2.5:f+10^4*r12],mean(pd12),1.0);
          Uf(j) = datasample(pd12l,1); 
         
         pd13 = makedist('Tri',fup-10^4*r13,fup,fup+10^4*r13);
-        pd13l = lognpdf([fup-10^4*r13:2.5:fup+10^4*r13],mean(pd13),std(pd13));
+%         pd13l = lognpdf([fup-10^4*r13:2.5:fup+10^4*r13],mean(pd13),std(pd13));
+        pd13l = lognpdf([fup-10^4*r13:2.5:fup+10^4*r13],mean(pd13),1.0);
          Ufup(j) = datasample(pd13l,1); 
 
         designParameters(8) = UDground_rec(j);
