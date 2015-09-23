@@ -133,20 +133,6 @@ C3 = zeros(1,sdp);
 I3 = zeros(1,sdp);
 C4 = zeros(1,sdp);
 I4 = zeros(1,sdp);
-z = 1;
-tot_pd1 = zeros(10,111);
-tot_pd2 = zeros(10,150);
-tot_pd3 = zeros(10,76);
-tot_pd4 = zeros(10,48);
-tot_pd5 = zeros(10,143);
-tot_pd6 = zeros(10,32);
-tot_pd7 = zeros(10,70);
-tot_pd8 = zeros(10,104);
-tot_pd9 = zeros(10,62);
-tot_pd10 = zeros(10,30);
-tot_pd11 = zeros(10,51);
-tot_pd12 = zeros(10,2018);
-tot_pd13 = zeros(10,922);
 
 %% The loop iterates through each design
 for i=1:size(designParameters)
