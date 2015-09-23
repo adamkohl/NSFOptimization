@@ -133,20 +133,6 @@ C3 = zeros(1,sdp);
 I3 = zeros(1,sdp);
 C4 = zeros(1,sdp);
 I4 = zeros(1,sdp);
-z = 1;
-tot_pd1 = zeros(10,111);
-tot_pd2 = zeros(10,150);
-tot_pd3 = zeros(10,76);
-tot_pd4 = zeros(10,48);
-tot_pd5 = zeros(10,143);
-tot_pd6 = zeros(10,32);
-tot_pd7 = zeros(10,70);
-tot_pd8 = zeros(10,104);
-tot_pd9 = zeros(10,62);
-tot_pd10 = zeros(10,30);
-tot_pd11 = zeros(10,51);
-tot_pd12 = zeros(10,2018);
-tot_pd13 = zeros(10,922);
 
 %% The loop iterates through each design
 for i=1:size(designParameters)
@@ -189,8 +175,16 @@ for i=1:size(designParameters)
     Power = designParameters(i,35);
     Thermal = designParameters(i,36);
     h = 3.5786000*10^7;
-    
+    CM = jet(10);    
     y_NoUtils(i) = -satellite_objective(designParameters(i,:));
+    
+    %Preallocating graph information
+    color_index = 1;
+    numlines = 10;
+    Legend = cell(numlines,1);
+    for iter=1:numlines
+        Legend{iter}=strcat('Iteration', num2str(iter),'*100');
+    end
     
     %% Determine utility values for each design parameter from normal pdf distribution
     for j = 1:no_of_samples
@@ -208,47 +202,84 @@ for i=1:size(designParameters)
         r11 = rand(1);
         r12 = rand(1);
         r13 = rand(1);
-       
-        pd1 = makedist('Tri',Dsat_trans-0.75*r1,Dsat_trans,Dsat_trans+0.75*r1);
-         UDsat_trans(j) = datasample(pd1,1);
         
-        pd2 = makedist('Tri',Dsat_rec-0.75*r2,Dsat_rec,Dsat_rec+0.75*r2);
-         UDsat_rec(j) = datasample(pd2,1);
+        pd1_l = Dsat_trans-0.75*r1;
+        pd1_u = Dsat_trans+0.75*r1;
+        pd1 = makedist('Tri',pd1_l,Dsat_trans,pd1_u);
+         UDsat_trans(j) = random(pd1,1);
         
-        pd3 = makedist('Tri',Dground_trans-0.75*r3,Dground_trans,Dground_trans+0.75*r3);
-         UDground_trans(j) = datasample(pd3,1);
+        pd2_l = Dsat_rec-0.75*r2;
+        pd2_u = Dsat_rec+0.75*r2;
+        pd2 = makedist('Tri',pd2_l,Dsat_rec,pd2_u);
+         UDsat_rec(j) = random(pd2,1);
         
-        pd4 = makedist('Tri',Dground_rec-0.75*r4,Dground_rec,Dground_rec+0.75*r4);
+        pd3_l = Dground_trans-0.75*r3;
+        pd3_u = Dground_trans+0.75*r3;
+        pd3 = makedist('Tri',pd3_l,Dground_trans,pd3_u);
+         UDground_trans(j) = random(pd3,1);
+        
+        pd4_l = Dground_rec-0.75*r4;
+        pd4_u = Dground_rec+0.75*r4;
+        pd4 = makedist('Tri',pd4_l,Dground_rec,pd4_u);
          UDground_rec(j) = random(pd4,1);
         
-        pd5 = makedist('Tri',Sat_long-0.75*r5,Sat_long,Sat_long+0.75*r5);
+        pd5_l = Sat_long-0.75*r5;
+        pd5_u = Sat_long+0.75*r5;
+        pd5 = makedist('Tri',pd5_l,Sat_long,pd5_u);
          USat_long(j) = random(pd5,1);
         
-        pd6 = makedist('Tri',Ground_long-0.75*r6,Ground_long,Ground_long+0.75*r6);
+        pd6_l = Ground_long-0.75*r6;
+        pd6_u = Ground_long+0.75*r6;
+        pd6 = makedist('Tri',pd6_l,Ground_long,pd6_u);
          UGround_long(j) = random(pd6,1);
         
-        pd7 = makedist('Tri',Ground_lat-0.75*r7,Ground_lat,Ground_lat+0.75*r7);
+        pd7_l = Ground_lat-0.75*r7;
+        pd7_u = Ground_lat+0.75*r7;
+        pd7 = makedist('Tri',pd7_l,Ground_lat,pd7_u);
          UGround_lat(j) = random(pd7,1);
         
-        pd8 = makedist('Tri',Ground_long_r-0.75*r8,Ground_long_r,Ground_long_r+0.75*r8);
+        pd8_l = Ground_long_r-0.75*r8;
+        pd8_u = Ground_long_r+0.75*r8;
+        pd8 = makedist('Tri',pd8_l,Ground_long_r,pd8_u);
          UGround_long_r(j) = random(pd8,1); 
         
-        pd9 = makedist('Tri',Ground_lat_r-0.75*r9,Ground_lat_r,Ground_lat_r+0.75*r9);
+        pd9_l = Ground_lat_r-0.75*r9;
+        pd9_u = Ground_lat_r+0.75*r9;
+        pd9 = makedist('Tri',pd9_l,Ground_lat_r,pd9_u);
          UGround_lat_r(j) = random(pd9,1); 
         
-        pd10 = makedist('Tri',Pst-0.5*r10,Pst,Pst+0.75*r10);
-        pd10n = normpdf([Pst-0.5*r10:0.01:Pst+0.75*r10],mean(pd10),std(pd10));
+        pd10_l = Pst-0.5*r10;
+        pd10_u = Pst+0.75*r10;
+        pd10 = makedist('Tri',pd10_l,Pst,pd10_u);
          UPst(j) = random(pd10,1);
         
-        pd11 = makedist('Tri',Pgt-0.5*r11,Pgt,Pgt+0.75*r11);
+        pd11_l = Pgt-0.5*r11;
+        pd11_u = Pgt+0.75*r11;
+        pd11 = makedist('Tri',pd11_l,Pgt,pd11_u);
          UPgt(j) = random(pd11,1); 
         
-        pd12 = makedist('Tri',f-10^4*r12,f,f+10^4*r12);
+        pd12_l = f-10^4*r12;
+        pd12_u = f+10^4*r12;
+        pd12 = makedist('Tri',pd12_l,f,pd12_u);
          Uf(j) = random(pd12,1); 
         
-        pd13 = makedist('Tri',fup-10^4*r13,fup,fup+10^4*r13);
+        pd13_l = fup-10^4*r13;
+        pd13_u = fup+10^4*r13;
+        pd13 = makedist('Tri',pd13_l,fup,pd13_u);
          Ufup(j) = random(pd13,1); 
-
+        
+        %Compute the pdfs 
+        pd1f = pdf(pd1,pd1_l:.01:pd1_u);
+        pd2f = pdf(pd2,pd2_l:.01:pd2_u);
+        pd3f = pdf(pd3,pd3_l:.01:pd3_u);
+        pd4f = pdf(pd4,pd4_l:.01:pd4_u);
+        pd5f = pdf(pd5,pd5_l:.01:pd5_u);
+        pd6f = pdf(pd6,pd6_l:.01:pd6_u);
+        pd7f = pdf(pd7,pd7_l:.01:pd7_u);
+        pd8f = pdf(pd8,pd8_l:.01:pd8_u);
+        pd9f = pdf(pd9,pd9_l:.01:pd9_u);
+        pd10f = pdf(pd10,pd10_l:.01:pd10_u);
+        
         designParameters(8) = UDground_rec(j);
         designParameters(9) = UDground_trans(j);
         designParameters(7) = UDsat_rec(j);
@@ -273,73 +304,78 @@ for i=1:size(designParameters)
         if mod(j,100)
             continue
         end
-%         axis auto
-        figure(1)
+        figure(i)
         subplot(4,4,1)
         title('normal 1')
-        plot(pd1n)
+        plot(pd1f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
         title('normal 2')
-        plot(pd2n)
+        plot(pd2f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
         title('normal 3')
-        plot(pd3n)
+        plot(pd3f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
         title('normal 4')
-        plot(pd4n)
+        plot(pd4f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
         title('normal 5')
-        plot(pd5n)
+        plot(pd5f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
         title('normal 6')
-        plot(pd6n)
+        plot(pd6f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
         title('normal 7')
-        plot(pd7n)
+        plot(pd7f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
         title('normal 8')
-        plot(pd8n)
+        plot(pd8f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
         title('normal 9')
-        plot(pd9n)
+        plot(pd9f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
         title('normal 10')
-        plot(pd10n)
+        plot(pd10f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,11)
         title('normal 11')
-        plot(pd11n)
+        plot(pd11f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
         title('normal 12')
-        plot(pd12n)
+        plot(pd12f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
         title('normal 13')
-        plot(pd13n)
+        plot(pd13f,'color',CM(color_index,:))
+        
+        legend(Legend);
         hold on
+        
+        color_index = color_index+1;
     end
+    
+    color_index = 0;
     hold off
     M(i)=mean(y);
     
@@ -367,12 +403,13 @@ for i=1:size(designParameters)
     [C3(i),I3(i)] = max(expUtilOutcome3(i));
     [C4(i),I4(i)] = max(expUtilOutcome4(i));
 end
+toc;
 
 % C values are the magnitude while I values are the ranking
 Design = [I1;I2;I3;I4];
-toc;
-
-fprintf('V              Exp1     Exp1_ro   Exp2    Exp2_ro    Exp3    Exp3_ro    Exp4    Exp4_ro     \n')
-for i=1:4
-fprintf('%g  %g  %g  %g  %g  %g  %g  %g  %g\n',y_NoUtils(i), expUtilOutcome1(i), Exp1_ro(i), expUtilOutcome2(i), Exp2_ro(i), expUtilOutcome3(i), Exp3_ro(i), expUtilOutcome4(i), Exp4_ro(i))   
-end
+Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
+value_NoUtils = M;
+outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Exp2_ro',...
+    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs,...
+    'VariableNames',{'ValueNoUtilities' 'expUtilOutcome1' 'Exp1_ro' 'expUtilOutcome2'...
+    'Exp2_ro' 'expUtilOutcome3' 'Exp3_ro' 'expUtilOutcome4' 'Exp4_ro'})
