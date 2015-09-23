@@ -269,7 +269,9 @@ for i=1:size(designParameters)
         designParameters(2) = Ufup(j);
 
         y(j) = -satellite_objective(designParameters(i,:));
-
+        %This was done to avoid complex utility numbers
+        y(j) = -y(j);
+        
         U1(j) = y(j).^(1/8);
         U2(j) = y(j).^(1/8);
         U3(j) = y(j).^(1/8); 
