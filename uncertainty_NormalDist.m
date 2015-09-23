@@ -391,15 +391,15 @@ for i=1:size(designParameters)
     [C3(i),I3(i)] = max(expUtilOutcome3(i));
     [C4(i),I4(i)] = max(expUtilOutcome4(i));
 end
+toc;
 
 % C values are the magnitude while I values are the ranking
 Design = [I1;I2;I3;I4];
-toc;
+Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
+value_NoUtils = M;
+outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Exp2_ro',...
+    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs)
 
-fprintf('V              Exp1     Exp1_ro   Exp2    Exp2_ro    Exp3    Exp3_ro    Exp4    Exp4_ro     \n')
-for i=1:4
-fprintf('%g  %g  %g  %g  %g  %g  %g  %g  %g\n',y_NoUtils(i), expUtilOutcome1(i), Exp1_ro(i), expUtilOutcome2(i), Exp2_ro(i), expUtilOutcome3(i), Exp3_ro(i), expUtilOutcome4(i), Exp4_ro(i))   
-end
 % for i=1:4
 % [r(i),p(i)]=corrcoef(Exp1_ro(i),Exp2_ro(i),'type','Spearman');   
 % end
