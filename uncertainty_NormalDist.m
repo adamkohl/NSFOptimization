@@ -189,9 +189,16 @@ for i=1:size(designParameters)
     Power = designParameters(i,35);
     Thermal = designParameters(i,36);
     h = 3.5786000*10^7;
-    
+    CM = jet(10);    
     y_NoUtils(i) = -satellite_objective(designParameters(i,:));
     
+    %Preallocating graph information
+    color_index = 1;
+    numlines = 10;
+    Legend = cell(numlines,1);
+    for iter=1:numlines
+        Legend{iter}=strcat('Iteration', num2str(iter),'*100');
+    end
     %% Determine utility values for each design parameter from normal pdf distribution
     for j = 1:no_of_samples
         
@@ -285,73 +292,78 @@ for i=1:size(designParameters)
         if mod(j,100)
             continue
         end
-%         axis auto
-        figure(1)
+        figure(i)
         subplot(4,4,1)
         title('normal 1')
-        plot(pd1n)
+        plot(pd1n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
         title('normal 2')
-        plot(pd2n)
+        plot(pd2n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
         title('normal 3')
-        plot(pd3n)
+        plot(pd3n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
         title('normal 4')
-        plot(pd4n)
+        plot(pd4n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
         title('normal 5')
-        plot(pd5n)
+        plot(pd5n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
         title('normal 6')
-        plot(pd6n)
+        plot(pd6n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
         title('normal 7')
-        plot(pd7n)
+        plot(pd7n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
         title('normal 8')
-        plot(pd8n)
+        plot(pd8n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
         title('normal 9')
-        plot(pd9n)
+        plot(pd9n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
         title('normal 10')
-        plot(pd10n)
+        plot(pd10n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,11)
         title('normal 11')
-        plot(pd11n)
+        plot(pd11n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
         title('normal 12')
-        plot(pd12n)
+        plot(pd12n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
         title('normal 13')
-        plot(pd13n)
+        plot(pd13n,'color',CM(color_index,:))
+        
+        legend(Legend);
         hold on
+        
+        color_index = color_index+1;
     end
+    
+    color_index = 0;
     hold off
     M(i)=mean(y);
     
