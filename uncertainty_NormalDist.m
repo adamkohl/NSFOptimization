@@ -273,9 +273,9 @@ for i=1:size(designParameters)
         y(j) = -y(j);
         
         U1(j) = y(j).^(1/8);
-        U2(j) = y(j).^(1/8);
-        U3(j) = y(j).^(1/8); 
-        U4(j) = y(j).^(1/8);
+        U2(j) = 1/alpha*y(i).^alpha;
+        U3(j) = -(1/a1)*exp(-a1*y(i)); 
+        U4(j) = -(1/a2)*exp(-a2*y(i));
     
         if mod(j,100)
             continue
