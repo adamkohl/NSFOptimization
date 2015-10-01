@@ -311,67 +311,67 @@ for i=1:size(designParameters)
         end
         figure(i)
         subplot(4,4,1)
-        title('Triangular 1')
+        title(sprintf('Dsat trans,Design %i', i))
         plot(pd1f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
-        title('Triangular 2')
+        title(sprintf('Dsat rec,Design %i', i))
         plot(pd2f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
-        title('Triangular 3')
+        title(sprintf('Dground trans,Design %i', i))
         plot(pd3f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
-        title('Triangular 4')
+        title(sprintf('Dground rec,Design %i', i))
         plot(pd4f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
-        title('Triangular 5')
+        title(sprintf('Sat long,Design %i', i))
         plot(pd5f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
-        title('Triangular 6')
+        title(sprintf('Ground long,Design %i', i))
         plot(pd6f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
-        title('Triangular 7')
+        title(sprintf('Ground lat,Design %i', i))
         plot(pd7f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
-        title('Triangular 8')
+        title(sprintf('Ground long r,Design %i', i))
         plot(pd8f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
-        title('Triangular 9')
+        title(sprintf('Ground lat r,Design %i', i))
         plot(pd9f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
-        title('Triangular 10')
+        title(sprintf('Pst,Design %i', i))
         plot(pd10f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,11)
-        title('Triangular 11')
+        title(sprintf('Pgt,Design %i', i))
         plot(pd11f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
-        title('Triangular 12')
+        title(sprintf('f,Design %i', i))
         plot(pd12f,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
-        title('Triangular 13')
+        title(sprintf('fup,Design %i', i))
         plot(pd13f,'color',CM(color_index,:))
         
         legend(Legend);
@@ -395,6 +395,7 @@ for i=1:size(designParameters)
     
     [n4,xout4] = hist(U4,no_of_samples);
     expUtilOutcome4(i) = sum(xout4.*n4)/(length(U4));
+    
     
     % Utility_Exp_outcome 
     %Exp1_ro is the value, Exp1_I is the place holder

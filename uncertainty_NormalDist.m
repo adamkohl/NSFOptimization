@@ -282,67 +282,67 @@ for i=1:size(designParameters)
         end
         figure(i)
         subplot(4,4,1)
-        title('normal 1')
+        title(sprintf('Dsat trans,Design %i', i))
         plot(pd1n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,2) 
-        title('normal 2')
+        title(sprintf('Dsat rec,Design %i', i))
         plot(pd2n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,3)
-        title('normal 3')
+        title(sprintf('Dground trans,Design %i', i))
         plot(pd3n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,4)
-        title('normal 4')
+        title(sprintf('Dground rec,Design %i', i))
         plot(pd4n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,5)
-        title('normal 5')
+        title(sprintf('Sat long,Design %i', i))
         plot(pd5n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,6)
-        title('normal 6')
+        title(sprintf('Ground long,Design %i', i))
         plot(pd6n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,7)
-        title('normal 7')
+        title(sprintf('Ground lat,Design %i', i))
         plot(pd7n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,8)
-        title('normal 8')
+        title(sprintf('Ground long r,Design %i', i))
         plot(pd8n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,9)
-        title('normal 9')
+        title(sprintf('Ground lat r,Design %i', i))
         plot(pd9n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,10)
-        title('normal 10')
+        title(sprintf('Pst,Design %i', i))
         plot(pd10n,'color',CM(color_index,:))
         hold on
-        
+       
         subplot(4,4,11)
-        title('normal 11')
+        title(sprintf('Pgt,Design %i', i))
         plot(pd11n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,12)
-        title('normal 12')
+        title(sprintf('f,Design %i', i))
         plot(pd12n,'color',CM(color_index,:))
         hold on
         
         subplot(4,4,13)
-        title('normal 13')
+        title(sprintf('fup,Design %i', i))
         plot(pd13n,'color',CM(color_index,:))
         
         legend(Legend);
