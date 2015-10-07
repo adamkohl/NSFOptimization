@@ -298,15 +298,16 @@ for j =1:sdp
 %         U(i) = (1/a)*c.^a;  
     end
     
-    M(j)=mean(y(j,:));
+    M = mean(y(j,:));
+    Mn(j) = M;
     [n(j,:),xout(j,:)] = hist(y(j,:),no_samples);
 
-%     linespec = {'b','m','c','r','g',[1 .6 0],'k'};
-%     hold on
-%     figure(i*sdp(1)+1);
-%     dx5(j,:) = quantile(y(j,:),.05);
-%     plot(xout(j,:),(n(j,:)*100)/trapz(xout(j,:),n(j,:)),'color',linespec{j},'LineWidth',1.4);
-%     hold off
+    linespec = {'b','m','c','r','g',[1 .6 0],'k'};
+    hold on
+    figure(i*sdp+1);
+    dx5(j,:) = quantile(y(j,:),.05);
+    plot(xout(j,:),(n(j,:)*100)/trapz(xout(j,:),n(j,:)),'color',linespec{j},'LineWidth',1.4);
+    hold off
     
     UAvg(j)=mean(U(j,:));
 %     u95(j,:) = quantile(U(j,:),.05);
@@ -318,16 +319,16 @@ for j =1:sdp
 end
 toc;
 
-[C1(j),I1(j)] = max(Exp(1));
-[C2(j),I2(j)] = max(Exp(2));
-[C3(j),I3(j)] = max(Exp(3));
-[C4(j),I4(j)] = max(Exp(4));
+[C(1),I1] = max(Exp(1));
+[C(2),I2] = max(Exp(2));
+[C(3),I3] = max(Exp(3));
+[C(4),I4] = max(Exp(4));
 
-% Design = [I1;I2;I3;I4];
-% Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
-% outputTable = table(V',expUtilOutcome',Exp', UAvg',...
-%     'RowNames',Designs,...
-%     'VariableNames',{'ValueNoUtilities' 'ExpectedUtility' '95QuantileUtility' 'AverageUtility'})
+Design = [I1;I2;I3;I4];
+Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
+outputTable = table(Mn',Exp',...
+    'RowNames',Designs,...
+    'VariableNames',{'Value' 'ExpectedUtility'})
 
 % Graph Results
 figure(1)
