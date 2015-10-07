@@ -52,15 +52,21 @@ UPst = zeros(1,no_samples);
 UPgt = zeros(1,no_samples);
 Uf = zeros(1,no_samples);
 Ufup = zeros(1,no_samples);
-M = zeros(1,sdp);
+M = zeros(sdp,no_samples);
+y = zeros(sdp,no_samples);
+P = zeros(sdp,no_samples);
+S = zeros(sdp,no_samples);
+n = zeros(sdp,no_samples);
+xout = zeros(sdp,no_samples);
+U = zeros(sdp,no_samples);
 
 %Preallocating graph information
-CM = jet(10);
+CM = jet(sdp);
 color_index = 1;
 numlines = sdp;
 Legend = cell(numlines,1);
 for iter=1:numlines
-    Legend{iter}=strcat('Iteration ', num2str(iter));
+    Legend{iter}=strcat('Design ', num2str(iter));
 end
 
 for j =1:sdp
@@ -282,110 +288,113 @@ for j =1:sdp
         currentDesign(1) = Uf(i);
         currentDesign(2) = Ufup(i);
                
-        [y(i),P(i),S(i)] = satellite_objective(currentDesign);
-        y(i) = -y(i);
+        [y(j,i),P(j,i),S(j,i)] = satellite_objective(currentDesign);
+        y(j,i) = -y(j,i);
         c = y(i);%(y(i)-(2*10^8))/(10^8);
         a = -0.275e-5;
-        a = -.00000009;
-        U(i) = 1E-232+(-1/a)*(exp(-a*c));
-    
+%         a = -.00000009;
+        U(j,i) = 1E-232+(-1/a)*(exp(-a*c));
 %         a = 0.2;
 %         U(i) = (1/a)*c.^a;  
     end
     
     M(j)=mean(y(j,:));
-    [n,xout] = hist(y,no_samples);
+    [n(j,:),xout(j,:)] = hist(y(j,:),no_samples);
 
-    linespec = {'b','m','c','r','g',[1 .6 0],'k'};
-    hold on
-    figure(i*sdp(1)+1);
-    dx5(j) = quantile(y,.05);
-    plot(xout,(n*100)/trapz(xout,n),'color',linespec{j},'LineWidth',1.4);
-    hold off
+%     linespec = {'b','m','c','r','g',[1 .6 0],'k'};
+%     hold on
+%     figure(i*sdp(1)+1);
+%     dx5(j,:) = quantile(y(j,:),.05);
+%     plot(xout(j,:),(n(j,:)*100)/trapz(xout(j,:),n(j,:)),'color',linespec{j},'LineWidth',1.4);
+%     hold off
+    
+    UAvg(j)=mean(U(j,:));
+%     u95(j,:) = quantile(U(j,:),.05);
+    [n7(j,:),xout7(j,:)] = hist(U(j,:),no_samples);
+    Exp(j) = sum(xout7(j,:).*n7(j,:))/length(U(j,:));
+    
+    % Utility_Exp_outcome 
 
-    Util(j)=mean(U(j,:));
-    u5(j) = quantile(U,.05);
-
-    [n7,xout7] = hist(U,1000);
-    Exp(j) = sum(xout7.*n7)/length(U);
 end
 toc;
 
-Design = [I1;I2;I3;I4];
-Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
-value_NoUtils = M;
-outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Exp2_ro',...
-    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs,...
-    'VariableNames',{'ValueNoUtilities' 'expUtilOutcome1' 'Exp1_ro' 'expUtilOutcome2'...
-    'Exp2_ro' 'expUtilOutcome3' 'Exp3_ro' 'expUtilOutcome4' 'Exp4_ro'})
+[C1(j),I1(j)] = max(Exp(1));
+[C2(j),I2(j)] = max(Exp(2));
+[C3(j),I3(j)] = max(Exp(3));
+[C4(j),I4(j)] = max(Exp(4));
+
+% Design = [I1;I2;I3;I4];
+% Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
+% outputTable = table(V',expUtilOutcome',Exp', UAvg',...
+%     'RowNames',Designs,...
+%     'VariableNames',{'ValueNoUtilities' 'ExpectedUtility' '95QuantileUtility' 'AverageUtility'})
 
 % Graph Results
-j = 0;
+figure(1)
 for j = 1:sdp
-    figure(j)
     subplot(4,4,1)
-    title(sprintf('Dsat trans,Design %i', j))
+    title(sprintf('Dsat trans,Design %j', j))
     plot(dx1(j,:),pd1narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,2) 
-    title(sprintf('Dsat rec,Design %i', j))
+    title(sprintf('Dsat rec,Design %j', j))
     plot(dx2(j,:),pd2narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,3)
-    title(sprintf('Dground trans,Design %i', j))
-    plot(dx3,pd3narray,'color',CM(color_index,:))
+    title(sprintf('Dground trans,Design %j', j))
+    plot(dx3(j,:),pd3narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,4)
-    title(sprintf('Dground rec,Design %i', j))
-    plot(dx4,pd4narray,'color',CM(color_index,:))
+    title(sprintf('Dground rec,Design %j', j))
+    plot(dx4(j,:),pd4narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,5)
-    title(sprintf('Sat long,Design %i', j))
-    plot(dx5,pd5narray,'color',CM(color_index,:))
+    title(sprintf('Sat long,Design %j', j))
+    plot(dx5(j,:),pd5narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,6)
-    title(sprintf('Ground long,Design %i', j))
-    plot(dx6,pd6narray,'color',CM(color_index,:))
+    title(sprintf('Ground long,Design %j', j))
+    plot(dx6(j,:),pd6narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,7)
-    title(sprintf('Ground lat,Design %i', j))
-    plot(dx7,pd7narray,'color',CM(color_index,:))
+    title(sprintf('Ground lat,Design %j', j))
+    plot(dx7(j,:),pd7narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,8)
-    title(sprintf('Ground long r,Design %i', j))
-    plot(dx8,pd8narray,'color',CM(color_index,:))
+    title(sprintf('Ground long r,Design %j', j))
+    plot(dx8(j,:),pd8narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,9)
-    title(sprintf('Ground lat r,Design %i', j))
-    plot(dx9,pd9narray,'color',CM(color_index,:))
+    title(sprintf('Ground lat r,Design %j', j))
+    plot(dx9(j,:),pd9narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,10)
-    title(sprintf('Pst,Design %i', j))
-    plot(dx10,pd10narray,'color',CM(color_index,:))
+    title(sprintf('Pst,Design %j', j))
+    plot(dx10(j,:),pd10narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,11)
-    title(sprintf('Pgt,Design %i', j))
-    plot(dx11,pd11narray,'color',CM(color_index,:))
+    title(sprintf('Pgt,Design %j', j))
+    plot(dx11(j,:),pd11narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,12)
-    title(sprintf('f,Design %i', j))
-    plot(dx12,pd12narray,'color',CM(color_index,:))
+    title(sprintf('f,Design %j', j))
+    plot(dx12(j,:),pd12narray(j,:),'color',CM(color_index,:))
     hold on
 
     subplot(4,4,13)
-    title(sprintf('fup,Design %i', j))
-    plot(dx13,pd13narray,'color',CM(color_index,:))
+    title(sprintf('fup,Design %j', j))
+    plot(dx13(j,:),pd13narray(j,:),'color',CM(color_index,:))
     
     legend(Legend);
     hold on
