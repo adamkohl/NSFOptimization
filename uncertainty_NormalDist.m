@@ -36,8 +36,9 @@ designParam4 =  [ 95.005e+009    80.005e+009    61.0000000000000e+000    6.005e+
 designParameters = [designParam1;designParam2;designParam3;designParam4];
 
 %Preallocate memory
-V = zeros(1:size(designParameters));
-no_samples = 1000;
+[sdp,~] = size(designParameters);
+V = zeros(1,sdp);
+no_samples = 100;
 UDsat_trans = zeros(1,no_samples);
 UDsat_rec = zeros(1,no_samples);
 UDground_trans = zeros(1,no_samples);
@@ -51,16 +52,18 @@ UPst = zeros(1,no_samples);
 UPgt = zeros(1,no_samples);
 Uf = zeros(1,no_samples);
 Ufup = zeros(1,no_samples);
+M = zeros(1,sdp);
 
 %Preallocating graph information
+CM = jet(10);
 color_index = 1;
-numlines = 10;
+numlines = sdp;
 Legend = cell(numlines,1);
 for iter=1:numlines
-    Legend{iter}=strcat('Iteration', num2str(iter),'*100');
+    Legend{iter}=strcat('Iteration ', num2str(iter));
 end
 
-for j =1:size(designParameters)
+for j =1:sdp
 
     currentDesign = designParameters(j,:);
     operational_lifetime = 10;
@@ -132,7 +135,7 @@ for j =1:size(designParameters)
     q7 = .01;
     q8 = .01;
     q9 = .01;
-
+    
     if Pst <= 5.5
         q10 = 0.1;
     elseif Pst > 5.5 && Pst <= 300
@@ -147,156 +150,123 @@ for j =1:size(designParameters)
     
     pd1_lower = Dsat_trans-q1;
     pd1_upper = Dsat_trans+q1;
+    d1 = (pd1_upper-pd1_lower)/100;
+    dx1(j,:) = [pd1_lower:d1:pd1_upper];
     pd1 = makedist('Tri',pd1_lower,Dsat_trans,pd1_upper);
-    pd1n = normpdf(pd1_lower:.01:pd1_upper,mean(pd1),std(pd1));
+    pd1narray(j,:) = normpdf(dx1(j,:),mean(pd1),std(pd1));
+    pd1n = makedist('Normal',mean(pd1),std(pd1));
     
-    p2_lower = Dsat_rec-q2;
-    p2_upper = Dsat_rec+q2;
-    pd2 = makedist('Tri',pd1_lower,Dsat_rec,pd2_upper);
-    pd2n = normpdf(pd2_lower:.01:pd2_upper,mean(pd2),std(pd2));
+    pd2_lower = Dsat_rec-q2;
+    pd2_upper = Dsat_rec+q2;
+    d2 = (pd2_upper-pd2_lower)/100;
+    dx2(j,:) = [pd2_lower:d2:pd2_upper];
+    pd2 = makedist('Tri',pd2_lower,Dsat_rec,pd2_upper);
+    pd2narray(j,:) = normpdf(dx2(j,:),mean(pd2),std(pd2));
+    pd2n = makedist('Normal',mean(pd2),std(pd2));
     
-    p3_lower = Dground_trans-q3;
-    p3_upper = Dground_trans+q3;
-    pd3 = makedist('Tri',pd1_lower,Dground_trans,pd3_upper);
-    pd3n = normpdf(pd3_lower:.01:pd3_upper,mean(pd3),std(pd3));
+    pd3_lower = Dground_trans-q3;
+    pd3_upper = Dground_trans+q3;
+    d3 = (pd3_upper-pd3_lower)/100;
+    dx3(j,:) = [pd3_lower:d3:pd3_upper];
+    pd3 = makedist('Tri',pd3_lower,Dground_trans,pd3_upper);
+    pd3narray(j,:) = normpdf(dx3(j,:),mean(pd3),std(pd3));
+    pd3n = makedist('Normal',mean(pd3),std(pd3));
     
-    p4_lower = Dground_rec-q4;
-    p4_upper = Dground_rec+q4;
-    pd4 = makedist('Tri',pd1_lower,Dground_rec,pd4_upper);
-    pd4n = normpdf(pd4_lower:.01:pd4_upper,mean(pd4),std(pd4));
+    pd4_lower = Dground_rec-q4;
+    pd4_upper = Dground_rec+q4;
+    d4 = (pd4_upper-pd4_lower)/100;
+    dx4(j,:) = [pd4_lower:d4:pd4_upper];
+    pd4 = makedist('Tri',pd4_lower,Dground_rec,pd4_upper);
+    pd4narray(j,:) = normpdf(dx4(j,:),mean(pd4),std(pd4));
+    pd4n = makedist('Normal',mean(pd4),std(pd4));
     
-    p5_lower = Sat_long-q5;
-    p5_upper = Sat_long+q5;
-    pd5 = makedist('Tri',pd1_lower,Sat_long,pd5_upper);
-    pd5n = normpdf(pd5_lower:.01:pd5_upper,mean(pd5),std(pd5));
+    pd5_lower = Sat_long-q5;
+    pd5_upper = Sat_long+q5;
+    d5 = (pd5_upper-pd5_lower)/100;
+    dx5(j,:) = [pd5_lower:d5:pd5_upper];
+    pd5 = makedist('Tri',pd5_lower,Sat_long,pd5_upper);
+    pd5narray(j,:) = normpdf(dx5(j,:),mean(pd5),std(pd5));
+    pd5n = makedist('Normal',mean(pd5),std(pd5));
     
-    p6_lower = Ground_long-q6;
-    p6_upper = Ground_long+q6;
-    pd6 = makedist('Tri',pd1_lower,Ground_long,pd6_upper);
-    pd6n = normpdf(pd6_lower:.01:pd6_upper,mean(pd6),std(pd6));
+    pd6_lower = Ground_long-q6;
+    pd6_upper = Ground_long+q6;
+    d6 = (pd6_upper-pd6_lower)/100;
+    dx6(j,:) = [pd6_lower:d6:pd6_upper];
+    pd6 = makedist('Tri',pd6_lower,Ground_long,pd6_upper);
+    pd6narray(j,:) = normpdf(dx6(j,:),mean(pd6),std(pd6));
+    pd6n = makedist('Normal',mean(pd6),std(pd6));
     
-    p7_lower = Ground_lat-q7;
-    p7_upper = Ground_lat+q7;
-    pd7 = makedist('Tri',pd1_lower,Ground_lat,pd7_upper);
-    pd7n = normpdf(pd7_lower:.01:pd7_upper,mean(pd7),std(pd7));
+    pd7_lower = Ground_lat-q7;
+    pd7_upper = Ground_lat+q7;
+    d7 = (pd7_upper-pd7_lower)/100;
+    dx7(j,:) = [pd7_lower:d7:pd7_upper];
+    pd7 = makedist('Tri',pd7_lower,Ground_lat,pd7_upper);
+    pd7narray(j,:) = normpdf(dx7(j,:),mean(pd7),std(pd7));
+    pd7n = makedist('Normal',mean(pd7),std(pd7));
     
-    p8_lower = Ground_long_r-q8;
-    p8_upper = Ground_long_r+q8;
-    pd8 = makedist('Tri',pd1_lower,Ground_long_r,pd8_upper);
-    pd8n = normpdf(pd8_lower:.01:pd8_upper,mean(pd8),std(pd8));
+    pd8_lower = Ground_long_r-q8;
+    pd8_upper = Ground_long_r+q8;
+    d8 = (pd8_upper-pd8_lower)/100;
+    dx8(j,:) = [pd8_lower:d8:pd8_upper];
+    pd8 = makedist('Tri',pd8_lower,Ground_long_r,pd8_upper);
+    pd8narray(j,:) = normpdf(dx8(j,:),mean(pd8),std(pd8));
+    pd8n = makedist('Normal',mean(pd8),std(pd8));
     
-    p9_lower = Ground_lat_r-q9;
-    p9_upper = Ground_lat_r+q9;
-    pd9 = makedist('Tri',pd1_lower,Ground_lat_r,pd9_upper);
-    pd9n = normpdf(pd9_lower:.01:pd9_upper,mean(pd9),std(pd9));
+    pd9_lower = Ground_lat_r-q9;
+    pd9_upper = Ground_lat_r+q9;
+    d9 = (pd9_upper-pd9_lower)/100;
+    dx9(j,:) = [pd9_lower:d9:pd9_upper];
+    pd9 = makedist('Tri',pd9_lower,Ground_lat_r,pd9_upper);
+    pd9narray(j,:) = normpdf(dx9(j,:),mean(pd9),std(pd9));
+    pd9n = makedist('Normal',mean(pd9),std(pd9));
     
-    p10_lower = Pst-q10;
-    p10_upper = Pst+q10;
-    pd10 = makedist('Tri',pd1_lower,Pst,pd10_upper);
-    pd10n = normpdf(pd10_lower:.01:pd10_upper,mean(pd10),std(pd10));
+    pd10_lower = Pst-q10;
+    pd10_upper = Pst+q10;
+    d10 = (pd10_upper-pd10_lower)/100;    
+    dx10(j,:) = [pd10_lower:d10:pd10_upper];
+    pd10 = makedist('Tri',pd10_lower,Pst,pd10_upper);
+    pd10narray(j,:) = normpdf(dx10(j,:),mean(pd10),std(pd10));
+    pd10n = makedist('Normal',mean(pd10),std(pd10));
     
-    p11_lower = Pgt-q11;
-    p11_upper = Pgt+q11;
-    pd11 = makedist('Tri',pd1_lower,Pgt,pd11_upper);
-    pd11n = normpdf(pd11_lower:.01:pd1_upper,mean(pd1),std(pd1));
+    pd11_lower = Pgt-q11;
+    pd11_upper = Pgt+q11;
+    d11 = (pd11_upper-pd11_lower)/100;
+    dx11(j,:) = [pd11_lower:d11:pd1_upper];
+    pd11 = makedist('Tri',pd11_lower,Pgt,pd11_upper);
+    pd11narray(j,:) = normpdf(dx11(j,:),mean(pd1),std(pd1));
+    pd11n = makedist('Normal',mean(pd11),std(pd11));
     
-    p12_lower = f-10^2;
-    p12_upper = f+10^3;
-    pd12 = makedist('Tri',pd1_lower,f,pd12_upper);
-    pd12n = normpdf(pd12_lower:2.5:pd1_upper,mean(pd12),std(pd12));
+    pd12_lower = f-10^2;
+    pd12_upper = f+10^3;
+    d12 = (pd12_upper-pd12_lower)/100;    
+    dx12(j,:) = [pd12_lower:d12:pd1_upper];
+    pd12 = makedist('Tri',pd12_lower,f,pd12_upper);
+    pd12narray(j,:) = normpdf(dx12(j,:),mean(pd12),std(pd12));
+    pd12n = makedist('Normal',mean(pd12),std(pd12));
     
-    p13_lower = fup-10^2;
-    p13_upper = fup+10^3;
-    pd13 = makedist('Tri',pd1_lower,fup,pd13_upper);
-    pd13n = normpdf(pd1_lower:2.5:pd1_upper,mean(pd13),std(pd13));
-
-    figure(j)
-    subplot(4,4,1)
-    title(sprintf('Dsat trans,Design %i', j))
-    plot(pd1n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,2) 
-    title(sprintf('Dsat rec,Design %i', j))
-    plot(pd2n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,3)
-    title(sprintf('Dground trans,Design %i', j))
-    plot(pd3n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,4)
-    title(sprintf('Dground rec,Design %i', j))
-    plot(pd4n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,5)
-    title(sprintf('Sat long,Design %i', j))
-    plot(pd5n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,6)
-    title(sprintf('Ground long,Design %i', j))
-    plot(pd6n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,7)
-    title(sprintf('Ground lat,Design %i', j))
-    plot(pd7n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,8)
-    title(sprintf('Ground long r,Design %i', j))
-    plot(pd8n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,9)
-    title(sprintf('Ground lat r,Design %i', j))
-    plot(pd9n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,10)
-    title(sprintf('Pst,Design %i', j))
-    plot(pd10n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,11)
-    title(sprintf('Pgt,Design %i', j))
-    plot(pd11n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,12)
-    title(sprintf('f,Design %i', j))
-    plot(pd12n,'color',CM(color_index,:))
-    hold on
-
-    subplot(4,4,13)
-    title(sprintf('fup,Design %i', j))
-    plot(pd13n,'color',CM(color_index,:))
-
-    legend(Legend);
-    hold on
-
-    color_index = color_index+1;
-    hold off
-
-    %for better pdfs, increase this loop to 100,000
+    pd13_lower = fup-10^2;
+    pd13_upper = fup+10^3;
+    d13 = (pd13_upper-pd13_lower)/100;
+    dx13(j,:) = [pd1_lower:d13:pd1_upper];
+    pd13 = makedist('Tri',pd13_lower,fup,pd13_upper);
+    pd13narray(j,:) = normpdf(dx13(j,:),mean(pd13),std(pd13));
+    pd13n = makedist('Normal',mean(pd13),std(pd13));
+    
     for i = 1:no_samples
 
-        UDsat_trans(i) = datasample(pd1n,1);
-        UDsat_rec(i) = datasample(pd2n,1);
-        UDground_trans(i) = datasample(pd3n,1);
-        UDground_rec(i) = datasample(pd4n,1);
-        USat_long(i) = datasample(pd5n,1);
-        UGround_long(i) = datasample(pd6n,1);
-        UGround_lat(i) = datasample(pd7n,1);
-        UGround_long_r(i) = datasample(pd8n,1);
-        UGround_lat_r(i) = datasample(pd9n,1);
-        UPst(i) = datasample(pd10n,1);
-        UPgt(i) = datasample(pd11n,1);
-        Uf(i) = datasample(pd12n,1);
-        Ufup(i) = datasample(pd13n,1);
+        UDsat_trans(i) = random(pd1n,1);
+        UDsat_rec(i) = random(pd2n,1);
+        UDground_trans(i) = random(pd3n,1);
+        UDground_rec(i) = random(pd4n,1);
+        USat_long(i) = random(pd5n,1);
+        UGround_long(i) = random(pd6n,1);
+        UGround_lat(i) = random(pd7n,1);
+        UGround_long_r(i) = random(pd8n,1);
+        UGround_lat_r(i) = random(pd9n,1);
+        UPst(i) = random(pd10n,1);
+        UPgt(i) = random(pd11n,1);
+        Uf(i) = random(pd12n,1);
+        Ufup(i) = random(pd13n,1);
 
         currentDesign(8) = UDground_rec(i);
         currentDesign(9) = UDground_trans(i);
@@ -311,60 +281,36 @@ for j =1:size(designParameters)
         currentDesign(10) = USat_long(i);
         currentDesign(1) = Uf(i);
         currentDesign(2) = Ufup(i);
-
+               
         [y(i),P(i),S(i)] = satellite_objective(currentDesign);
-        y(i)=-y(i);
-        c = y(i);
+        y(i) = -y(i);
+        c = y(i);%(y(i)-(2*10^8))/(10^8);
+        a = -0.275e-5;
         a = -.00000009;
         U(i) = 1E-232+(-1/a)*(exp(-a*c));
+    
+%         a = 0.2;
+%         U(i) = (1/a)*c.^a;  
     end
-linespec = {'b','m','c','r','g',[1 .6 0],'k'};
-hold on
-figure(i*size(designParameters)+1);
-M(j)=mean(y);
-[n,xout] = hist(y,no_samples);
-x5(j) = quantile(y,.05);
-plot(xout,(n*100)/trapz(xout,n),'color',linespec{j},'LineWidth',1.4);
-hold off
+    
+    M(j)=mean(y(j,:));
+    [n,xout] = hist(y,no_samples);
 
-Util(j)=mean(U);
-u5(j) = quantile(U,.05);
+    linespec = {'b','m','c','r','g',[1 .6 0],'k'};
+    hold on
+    figure(i*sdp(1)+1);
+    dx5(j) = quantile(y,.05);
+    plot(xout,(n*100)/trapz(xout,n),'color',linespec{j},'LineWidth',1.4);
+    hold off
 
-[n7,xout7] = hist(U,1000);
-Exp(j) = sum(xout7.*n7)/length(U);
-end
-Exp
+    Util(j)=mean(U(j,:));
+    u5(j) = quantile(U,.05);
 
-[C1,I1] = max(Exp);
-Design = [I1]
-    
-    [n1,xout1] = hist(U1,no_of_samples);
-    expUtilOutcome1(i) = sum(xout1.*n1)/(length(U1));
-    
-    [n2,xout2] = hist(U2,no_of_samples);
-    expUtilOutcome2(i) = sum(xout2.*n2)/(length(U2));
-    
-    [n3,xout3] = hist(U3,no_of_samples);
-    expUtilOutcome3(i) = sum(xout3.*n3)/(length(U3));
-    
-    [n4,xout4] = hist(U4,no_of_samples);
-    expUtilOutcome4(i) = sum(xout4.*n4)/(length(U4));
-    
-    % Utility_Exp_outcome 
-    %Exp1_ro is the value, Exp1_I is the place holder
-    [Exp1_ro(i),Exp1_I(i)]= sort(expUtilOutcome1(i),'descend');
-    [Exp2_ro(i),Exp2_I(i)]= sort(expUtilOutcome2(i),'descend');
-    [Exp3_ro(i),Exp3_I(i)]= sort(expUtilOutcome3(i),'descend');
-    [Exp4_ro(i),Exp4_I(i)]= sort(expUtilOutcome4(i),'descend');
-
-    [C1(i),I1(i)] = max(expUtilOutcome1(i));
-    [C2(i),I2(i)] = max(expUtilOutcome2(i));
-    [C3(i),I3(i)] = max(expUtilOutcome3(i));
-    [C4(i),I4(i)] = max(expUtilOutcome4(i));
+    [n7,xout7] = hist(U,1000);
+    Exp(j) = sum(xout7.*n7)/length(U);
 end
 toc;
 
-% C values are the magnitude while I values are the ranking
 Design = [I1;I2;I3;I4];
 Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
 value_NoUtils = M;
@@ -373,8 +319,77 @@ outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Ex
     'VariableNames',{'ValueNoUtilities' 'expUtilOutcome1' 'Exp1_ro' 'expUtilOutcome2'...
     'Exp2_ro' 'expUtilOutcome3' 'Exp3_ro' 'expUtilOutcome4' 'Exp4_ro'})
 
-% for i=1:4
-% [r(i),p(i)]=corrcoef(Exp1_ro(i),Exp2_ro(i),'type','Spearman');   
-% end
-%  r
-%  p
+% Graph Results
+j = 0;
+for j = 1:sdp
+    figure(j)
+    subplot(4,4,1)
+    title(sprintf('Dsat trans,Design %i', j))
+    plot(dx1(j,:),pd1narray(j,:),'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,2) 
+    title(sprintf('Dsat rec,Design %i', j))
+    plot(dx2(j,:),pd2narray(j,:),'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,3)
+    title(sprintf('Dground trans,Design %i', j))
+    plot(dx3,pd3narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,4)
+    title(sprintf('Dground rec,Design %i', j))
+    plot(dx4,pd4narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,5)
+    title(sprintf('Sat long,Design %i', j))
+    plot(dx5,pd5narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,6)
+    title(sprintf('Ground long,Design %i', j))
+    plot(dx6,pd6narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,7)
+    title(sprintf('Ground lat,Design %i', j))
+    plot(dx7,pd7narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,8)
+    title(sprintf('Ground long r,Design %i', j))
+    plot(dx8,pd8narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,9)
+    title(sprintf('Ground lat r,Design %i', j))
+    plot(dx9,pd9narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,10)
+    title(sprintf('Pst,Design %i', j))
+    plot(dx10,pd10narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,11)
+    title(sprintf('Pgt,Design %i', j))
+    plot(dx11,pd11narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,12)
+    title(sprintf('f,Design %i', j))
+    plot(dx12,pd12narray,'color',CM(color_index,:))
+    hold on
+
+    subplot(4,4,13)
+    title(sprintf('fup,Design %i', j))
+    plot(dx13,pd13narray,'color',CM(color_index,:))
+    
+    legend(Legend);
+    hold on
+
+    color_index = color_index+1;
+end
+hold off
