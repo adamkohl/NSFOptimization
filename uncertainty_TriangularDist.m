@@ -2,420 +2,557 @@ clc
 clear all
 format longEng
 tic;
+  
+designParam1 =  [ 95e+009    80e+009    61.0000000000000e+000    6e+000   850e+000    200e-003...
+                200e-003    13e+000    3e+000    302e+000    98e+000    40e+000...
+                105e+000    38e+000    2.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                3.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                2.00000000000000e+000    2.00000000000000e+000    2.00000000000000e+000    4.00000000000000e+000    1.00000000000000e+000    3.00000000000000e+000...
+                3.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000];
 
-%% Initial design parameters 
-N = 61;
+designParam2 =  [ 95.05e+009    80.05e+009    61.0000000000000e+000    6.2e+000   851e+000    202e-003...
+                202e-003    13.05e+000    3.05e+000    303e+000    99e+000    40.4e+000...
+                105.5e+000    38.4e+000    2.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                3.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                2.00000000000000e+000    2.00000000000000e+000    2.00000000000000e+000    4.00000000000000e+000    1.00000000000000e+000    3.00000000000000e+000...
+                3.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000];
 
-designParam1 =[5e9   5e9   N   20  100   2,...
-2  5   5   100  100   40,...
- 75    40,...
- 2.00000000000000e+000    2.00000000000000e+000,...
- 3.00000000000000e+000    2.00000000000000e+000...
-3.00000000000000e+000    2.00000000000000e+000,...
-3.00000000000000e+000    3.00000000000000e+000,...
-3.00000000000000e+000    2.00000000000000e+000...
-2.00000000000000e+000    2.00000000000000e+000,...
-2.00000000000000e+000    4.00000000000000e+000,...
-1.00000000000000e+000    3.00000000000000e+000...
- 3.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000];
 
-designParam2 =[5.05e9   5.05e9   N  20.2  101   2.02,...
-2.02  5.05   5.05   101  101   40.4,...
- 75.75    40.4,...
- 2.00000000000000e+000    2.00000000000000e+000,...
- 3.00000000000000e+000    2.00000000000000e+000...
-3.00000000000000e+000    2.00000000000000e+000,...
-3.00000000000000e+000    3.00000000000000e+000,...
-3.00000000000000e+000    2.00000000000000e+000...
-2.00000000000000e+000    2.00000000000000e+000,...
-2.00000000000000e+000    4.00000000000000e+000,...
-1.00000000000000e+000    3.00000000000000e+000...
- 3.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000];
+designParam3 =  [ 94.05e+009    79.05e+009    61.0000000000000e+000    5.98e+000   849e+000    198e-003...
+                198e-003    12.05e+000    2.95e+000    300e+000    97e+000    39.6e+000...
+                103e+000    37e+000    2.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                3.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                2.00000000000000e+000    2.00000000000000e+000    2.00000000000000e+000    4.00000000000000e+000    1.00000000000000e+000    3.00000000000000e+000...
+                3.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000];
 
-designParam3 =[4.95e9   4.955e9   N   19.98  99   1.98,...
-1.98  4.95   4.95   99  99   39.6,...
- 74.25    39.6,...
- 2.00000000000000e+000    2.00000000000000e+000,...
- 3.00000000000000e+000    2.00000000000000e+000...
-3.00000000000000e+000    2.00000000000000e+000,...
-3.00000000000000e+000    3.00000000000000e+000,...
-3.00000000000000e+000    2.00000000000000e+000...
-2.00000000000000e+000    2.00000000000000e+000,...
-2.00000000000000e+000    4.00000000000000e+000,...
-1.00000000000000e+000    3.00000000000000e+000...
- 3.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000];
 
-designParam4 =[5.005e9   5.005e9   N  20  100   2,...
-2  5   5   100  100   40,...
- 75    40,...
- 2.00000000000000e+000    2.00000000000000e+000,...
- 3.00000000000000e+000    2.00000000000000e+000...
-3.00000000000000e+000    2.00000000000000e+000,...
-3.00000000000000e+000    3.00000000000000e+000,...
-3.00000000000000e+000    2.00000000000000e+000...
-2.00000000000000e+000    2.00000000000000e+000,...
-2.00000000000000e+000    4.00000000000000e+000,...
-1.00000000000000e+000    3.00000000000000e+000...
- 3.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000,...
- 1.00000000000000e+000    1.00000000000000e+000];
+designParam4 =  [ 95.005e+009    80.005e+009    61.0000000000000e+000    6.005e+000   850.5e+000    200e-003...
+                200e-003    13e+000    3e+000    302e+000    98e+000    40e+000...
+                105e+000    38e+000    2.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                3.00000000000000e+000    2.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    3.00000000000000e+000    2.00000000000000e+000...
+                2.00000000000000e+000    2.00000000000000e+000    2.00000000000000e+000    4.00000000000000e+000    1.00000000000000e+000    3.00000000000000e+000...
+                3.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000    1.00000000000000e+000];
 
 designParameters = [designParam1;designParam2;designParam3;designParam4];
 
-%% Define Coefficients for utility functions
-no_of_samples = 1000;
-a = .00000009;
-
-R1 = 10^7;
-R2 = -10^7;
-b1 = 135*10^6;
-
-a1 = 0.00000009;
-a2 = 0.00000001;
-a3 = 0;
-a4 = -0.000000005;
-a5 = -0.00000009;
-
-alpha = 5;
-alpha1 = -0.01;
-alpha2 = alpha1+0.1;
-alpha3 = alpha2+0.1;
-alpha4 = alpha3+0.1;
-
-%% Pre-allocating memory
+%Preallocate memory
 [sdp,~] = size(designParameters);
+V = zeros(1,sdp);
+no_samples = 100;
+UDsat_trans = zeros(1,no_samples);
+UDsat_rec = zeros(1,no_samples);
+UDground_trans = zeros(1,no_samples);
+UDground_rec = zeros(1,no_samples);
+USat_long = zeros(1,no_samples);
+UGround_long = zeros(1,no_samples);
+UGround_lat = zeros(1,no_samples);
+UGround_long_r = zeros(1,no_samples);
+UGround_lat_r = zeros(1,no_samples);
+UPst = zeros(1,no_samples);
+UPgt = zeros(1,no_samples);
+Uf = zeros(1,no_samples);
+Ufup = zeros(1,no_samples);
+M = zeros(sdp,no_samples);
+y = zeros(sdp,no_samples);
+P = zeros(sdp,no_samples);
+S = zeros(sdp,no_samples);
+n = zeros(sdp,no_samples);
+xout = zeros(sdp,no_samples);
+U = zeros(sdp,no_samples);
 
-U1 = zeros(1,no_of_samples*sdp(1));
-U2 = zeros(1,no_of_samples*sdp(1));
-U3 = zeros(1,no_of_samples*sdp(1));
-U4 = zeros(1,no_of_samples*sdp(1));
+%Preallocating graph information
+CM = jet(sdp);
+color_index = 1;
+numlines = sdp;
+lins = {'-','--',':','-.'};
+linespec = {'b','m','c','r','g',[1 .6 0],'k'};
+Legend = cell(numlines,1);
+for iter=1:numlines
+    Legend{iter}=strcat('Design ', num2str(iter));
+end
 
-UDsat_trans = zeros(1,no_of_samples);
-UDsat_rec = zeros(1,no_of_samples);
-UDground_trans = zeros(1,no_of_samples);
-UDground_rec = zeros(1,no_of_samples);
-USat_long = zeros(1,no_of_samples);
-UGround_long = zeros(1,no_of_samples);
-UGround_lat = zeros(1,no_of_samples);
-UGround_long_r = zeros(1,no_of_samples);
-UGround_lat_r = zeros(1,no_of_samples);
-UPst = zeros(1,no_of_samples);
-UPgt = zeros(1,no_of_samples);
-Uf = zeros(1,no_of_samples);
-Ufup = zeros(1,no_of_samples);
-y = zeros(1,no_of_samples);
-y_NoUtils = zeros(1,no_of_samples);
-M = zeros(1,sdp(1));
-pdfStruct = struct();
-expUtilOutcome1 = zeros(1,sdp);
-expUtilOutcome2 = zeros(1,sdp);
-expUtilOutcome3 = zeros(1,sdp);
-expUtilOutcome4 = zeros(1,sdp);
-Exp1_ro = zeros(1,sdp);
-Exp1_I = zeros(1,sdp);
-Exp2_ro = zeros(1,sdp);
-Exp2_I = zeros(1,sdp);
-Exp3_ro = zeros(1,sdp);
-Exp3_I = zeros(1,sdp);
-Exp4_ro = zeros(1,sdp);
-Exp4_I = zeros(1,sdp);
-C1 = zeros(1,sdp);
-I1 = zeros(1,sdp);
-C2 = zeros(1,sdp);
-I2 = zeros(1,sdp);
-C3 = zeros(1,sdp);
-I3 = zeros(1,sdp);
-C4 = zeros(1,sdp);
-I4 = zeros(1,sdp);
+for j =1:sdp
 
-%% The loop iterates through each design
-for i=1:size(designParameters)
-     
+    currentDesign = designParameters(j,:);
     operational_lifetime = 10;
-    f = designParameters(i,1);
-    fup = designParameters(i,2);
-    N = designParameters(i,3);
-    Pst = designParameters(i,4);
-    Pgt = designParameters(i,5);
-    Dsat_trans = designParameters(i,6);
-    Dsat_rec = designParameters(i,7);
-    Dground_rec = designParameters(i,8);
-    Dground_trans = designParameters(i,9);
-    Sat_long = designParameters(i,10);
-    Ground_long = designParameters(i,11);
-    Ground_lat = designParameters(i,12);
-    Ground_long_r = designParameters(i,13);
-    Ground_lat_r = designParameters(i,14);
-    Amp = designParameters(i,15);
-    Prop_tech = designParameters(i,16);
-    Prop = designParameters(i,17);
-    Batt = designParameters(i,18);
-    SA_material = designParameters(i,19);
-    a_e_SA = designParameters(i,20);
-    a_e_trans_antenna = designParameters(i,21);
-    a_e_rec_antenna = designParameters(i,22);
-    a_e_bus = designParameters(i,23);
-    eps_rad_battery = designParameters(i,24);
-    eps_rad_RW = designParameters(i,25);
-    eps_rad_tank = designParameters(i,26);
-    bus_config = designParameters(i,27);
-    bus_material = designParameters(i,28);
-    Prop_tank_material = designParameters(i,29);
-    launchsite = designParameters(i,30);
-    Launch_vehicle = designParameters(i,31);
-    Controller = designParameters(i,32);
-    Ant_type = designParameters(i,33);
-    Ant_type_ground = designParameters(i,34);
-    Power = designParameters(i,35);
-    Thermal = designParameters(i,36);
+    f = currentDesign(1);
+    fup = currentDesign(2);
+    N = currentDesign(3);
+    Pst = currentDesign(4);
+    Pgt = currentDesign(5);
+    Dsat_trans = currentDesign(6);
+    Dsat_rec = currentDesign(7);
+    Dground_rec = currentDesign(8);
+    Dground_trans = currentDesign(9);
+    Sat_long = currentDesign(10);
+    Ground_long = currentDesign(11);
+    Ground_lat = currentDesign(12);
+    Ground_long_r = currentDesign(13);
+    Ground_lat_r = currentDesign(14);
+    Amp = currentDesign(15);
+    Prop_tech = currentDesign(16);
+    Prop = currentDesign(17);
+    Batt = currentDesign(18);
+    SA_material = currentDesign(19);
+    a_e_SA = currentDesign(20);
+    a_e_trans_antenna = currentDesign(21);
+    a_e_rec_antenna = currentDesign(22);
+    a_e_bus = currentDesign(23);
+    eps_rad_battery = currentDesign(24);
+    eps_rad_RW = currentDesign(25);
+    eps_rad_tank = currentDesign(26);
+    bus_config = currentDesign(27);
+    bus_material = currentDesign(28);
+    Prop_tank_material = currentDesign(29);
+    launchsite = currentDesign(30);
+    Launch_vehicle = currentDesign(31);
+    Controller = currentDesign(32);
+    Ant_type = currentDesign(33);
+    Ant_type_ground = currentDesign(34);
+    Power = currentDesign(35);
+    Thermal = currentDesign(36);
     h = 3.5786000*10^7;
-    CM = jet(10);    
-    y_NoUtils(i) = -satellite_objective(designParameters(i,:));
-    
-    %Preallocating graph information
-    color_index = 1;
-    numlines = 10;
-    Legend = cell(numlines,1);
-    for iter=1:numlines
-        Legend{iter}=strcat('Iteration', num2str(iter),'*100');
-    end
-    
-    %% Determine utility values for each design parameter from normal pdf distribution
-    for j = 1:no_of_samples
-        
-        r1 = rand(1);
-        r2 = rand(1);
-        r3 = rand(1);
-        r4 = rand(1);
-        r5 = rand(1);
-        r6 = rand(1);
-        r7 = rand(1);
-        r8 = rand(1);
-        r9 = rand(1);
-        r10 = rand(1);
-        r11 = rand(1);
-        r12 = rand(1);
-        r13 = rand(1);
-        
-        pd1_l = Dsat_trans-0.75*r1;
-        pd1_u = Dsat_trans+0.75*r1;
-        pd1 = makedist('Tri',pd1_l,Dsat_trans,pd1_u);
-         UDsat_trans(j) = random(pd1,1);
-        
-        pd2_l = Dsat_rec-0.75*r2;
-        pd2_u = Dsat_rec+0.75*r2;
-        pd2 = makedist('Tri',pd2_l,Dsat_rec,pd2_u);
-         UDsat_rec(j) = random(pd2,1);
-        
-        pd3_l = Dground_trans-0.75*r3;
-        pd3_u = Dground_trans+0.75*r3;
-        pd3 = makedist('Tri',pd3_l,Dground_trans,pd3_u);
-         UDground_trans(j) = random(pd3,1);
-        
-        pd4_l = Dground_rec-0.75*r4;
-        pd4_u = Dground_rec+0.75*r4;
-        pd4 = makedist('Tri',pd4_l,Dground_rec,pd4_u);
-         UDground_rec(j) = random(pd4,1);
-        
-        pd5_l = Sat_long-0.75*r5;
-        pd5_u = Sat_long+0.75*r5;
-        pd5 = makedist('Tri',pd5_l,Sat_long,pd5_u);
-         USat_long(j) = random(pd5,1);
-        
-        pd6_l = Ground_long-0.75*r6;
-        pd6_u = Ground_long+0.75*r6;
-        pd6 = makedist('Tri',pd6_l,Ground_long,pd6_u);
-         UGround_long(j) = random(pd6,1);
-        
-        pd7_l = Ground_lat-0.75*r7;
-        pd7_u = Ground_lat+0.75*r7;
-        pd7 = makedist('Tri',pd7_l,Ground_lat,pd7_u);
-         UGround_lat(j) = random(pd7,1);
-        
-        pd8_l = Ground_long_r-0.75*r8;
-        pd8_u = Ground_long_r+0.75*r8;
-        pd8 = makedist('Tri',pd8_l,Ground_long_r,pd8_u);
-         UGround_long_r(j) = random(pd8,1); 
-        
-        pd9_l = Ground_lat_r-0.75*r9;
-        pd9_u = Ground_lat_r+0.75*r9;
-        pd9 = makedist('Tri',pd9_l,Ground_lat_r,pd9_u);
-         UGround_lat_r(j) = random(pd9,1); 
-        
-        pd10_l = Pst-0.5*r10;
-        pd10_u = Pst+0.75*r10;
-        pd10 = makedist('Tri',pd10_l,Pst,pd10_u);
-         UPst(j) = random(pd10,1);
-        
-        pd11_l = Pgt-0.5*r11;
-        pd11_u = Pgt+0.75*r11;
-        pd11 = makedist('Tri',pd11_l,Pgt,pd11_u);
-         UPgt(j) = random(pd11,1); 
-        
-        pd12_l = f-10^4*r12;
-        pd12_u = f+10^4*r12;
-        pd12 = makedist('Tri',pd12_l,f,pd12_u);
-         Uf(j) = random(pd12,1); 
-        
-        pd13_l = fup-10^4*r13;
-        pd13_u = fup+10^4*r13;
-        pd13 = makedist('Tri',pd13_l,fup,pd13_u);
-         Ufup(j) = random(pd13,1); 
-        
-        %Compute the pdfs 
-        pd1f = pdf(pd1,pd1_l:.01:pd1_u);
-        pd2f = pdf(pd2,pd2_l:.01:pd2_u);
-        pd3f = pdf(pd3,pd3_l:.01:pd3_u);
-        pd4f = pdf(pd4,pd4_l:.01:pd4_u);
-        pd5f = pdf(pd5,pd5_l:.01:pd5_u);
-        pd6f = pdf(pd6,pd6_l:.01:pd6_u);
-        pd7f = pdf(pd7,pd7_l:.01:pd7_u);
-        pd8f = pdf(pd8,pd8_l:.01:pd8_u);
-        pd9f = pdf(pd9,pd9_l:.01:pd9_u);
-        pd10f = pdf(pd10,pd10_l:.01:pd10_u);
-        pd11f = pdf(pd11,pd11_l:.01:pd11_u);
-        pd12f = pdf(pd12,pd12_l:2.5:pd12_u);
-        pd13f = pdf(pd13,pd13_l:2.5:pd13_u);
-        
-        designParameters(8) = UDground_rec(j);
-        designParameters(9) = UDground_trans(j);
-        designParameters(7) = UDsat_rec(j);
-        designParameters(6) = UDsat_trans(j);
-        designParameters(12) = UGround_lat(j);
-        designParameters(14) = UGround_lat_r(j);
-        designParameters(11) = UGround_long(j);
-        designParameters(13) = UGround_long_r(j);
-        designParameters(5) = UPgt(j);
-        designParameters(4) = UPst(j);
-        designParameters(10) = USat_long(j);
-        designParameters(1) = Uf(j);
-        designParameters(2) = Ufup(j);
+    V(j) = -satellite_objective(currentDesign);
 
-        y(j) = -satellite_objective(designParameters(i,:));
-        %This was done to avoid complex utility numbers
-        y(j) = -y(j);
-        
-        U1(j) = y(j).^(1/8);
-        U2(j) = 1/alpha*y(i).^alpha;
-        U3(j) = -(1/a1)*exp(-a1*y(i)); 
-        U4(j) = -(1/a2)*exp(-a2*y(i));
+    if Dsat_trans <= .15
+        q1 =0.0001;
+    elseif Dsat_trans >.15 && Dsat_trans <= 5
+        q1 = 0.0412165* Dsat_trans - 0.00608247;
+    end
+
+    if Dsat_rec <= .15
+        q2 =0.0001;
+    elseif Dsat_rec >.15 && Dsat_rec <= 5
+        q2 = 0.0412165* Dsat_rec - 0.00608247;
+    end
+
+    if Dground_trans <= 2.5
+        q3 = 0.01;
+    elseif Dground_trans > 2.5 && Dground_trans <= 20
+        q3 = 0.0108571 * Dground_trans - 0.0171429;
+    end
+
+    if Dground_rec <= 2.5
+        q4 = 0.01;
+    elseif Dground_rec > 2.5 && Dground_rec <= 20
+        q4 = 0.0108571 * Dground_rec - 0.0171429;
+    end
+
+    q5 = .1;
+    q6 = .01;
+    q7 = .01;
+    q8 = .01;
+    q9 = .01;
     
-        if mod(j,100)
-            continue
-        end
-        figure(i)
-        subplot(4,4,1)
-        title(sprintf('Dsat trans,Design %i', i))
-        plot(pd1f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,2) 
-        title(sprintf('Dsat rec,Design %i', i))
-        plot(pd2f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,3)
-        title(sprintf('Dground trans,Design %i', i))
-        plot(pd3f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,4)
-        title(sprintf('Dground rec,Design %i', i))
-        plot(pd4f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,5)
-        title(sprintf('Sat long,Design %i', i))
-        plot(pd5f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,6)
-        title(sprintf('Ground long,Design %i', i))
-        plot(pd6f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,7)
-        title(sprintf('Ground lat,Design %i', i))
-        plot(pd7f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,8)
-        title(sprintf('Ground long r,Design %i', i))
-        plot(pd8f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,9)
-        title(sprintf('Ground lat r,Design %i', i))
-        plot(pd9f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,10)
-        title(sprintf('Pst,Design %i', i))
-        plot(pd10f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,11)
-        title(sprintf('Pgt,Design %i', i))
-        plot(pd11f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,12)
-        title(sprintf('f,Design %i', i))
-        plot(pd12f,'color',CM(color_index,:))
-        hold on
-        
-        subplot(4,4,13)
-        title(sprintf('fup,Design %i', i))
-        plot(pd13f,'color',CM(color_index,:))
-        
-        legend(Legend);
-        hold on
-        
-        color_index = color_index+1;
+    if Pst <= 5.5
+        q10 = 0.1;
+    elseif Pst > 5.5 && Pst <= 300
+        q10 = 0.00305603*Pst +0.0831919;
+    end
+
+    if Pgt <= 305    
+        q11 = 1;
+    elseif Pgt > 305 && Pgt <= 1000
+        q11 =((4*Pgt)/695)-(105/139);
     end
     
-    color_index = 0;
-    hold off
-    M(i)=mean(y);
+    skew = 0.25;
+    skewleft = false;
+    skewright = false;
     
-    [n1,xout1] = hist(U1,no_of_samples);
-    expUtilOutcome1(i) = sum(xout1.*n1)/(length(U1));
+    pd1_lower = Dsat_trans-q1;
+    pd1_upper = Dsat_trans+q1;
+    d1 = (pd1_upper-pd1_lower)/1000;
+    dx1(j,:) = [pd1_lower:d1:pd1_upper];
+    if skewleft == true
+        b = pd1_lower+(Dsat_trans-pd1_lower)*skew;
+        pd1 = makedist('Tri',pd1_lower,b,pd1_upper);
+        pdf1(j,:) = pdf(pd1,dx1(j,:));
+    elseif skewright == true
+        b = pd1_upper-(pd1_upper-Dsat_trans)*skew;
+        pd1 = makedist('Tri',pd1_lower,b,pd1_upper);
+        pdf1(j,:) = pdf(pd1,dx1(j,:));
+    else
+        pd1 = makedist('Tri',pd1_lower,Dsat_trans,pd1_upper);
+        pdf1(j,:) = pdf(pd1,dx1(j,:));
+    end
     
-    [n2,xout2] = hist(U2,no_of_samples);
-    expUtilOutcome2(i) = sum(xout2.*n2)/(length(U2));
+    pd2_lower = Dsat_rec-q2;
+    pd2_upper = Dsat_rec+q2;
+    d2 = (pd2_upper-pd2_lower)/1000;
+    dx2(j,:) = [pd2_lower:d2:pd2_upper];
+    if skewleft == true
+        b = pd2_lower+(Dsat_rec-pd2_lower)*skew;
+        pd2 = makedist('Tri',pd2_lower,b,pd2_upper);
+        pdf2(j,:) = pdf(pd2,dx2(j,:));
+    elseif skewright == true
+        b = pd2_upper-(pd2_upper-Dsat_rec)*skew;
+        pd2 = makedist('Tri',pd2_lower,b,pd2_upper);
+        pdf2(j,:) = pdf(pd2,dx2(j,:));
+    else
+        pd2 = makedist('Tri',pd2_lower,Dsat_rec,pd2_upper);
+        pdf2(j,:) = pdf(pd2,dx2(j,:));
+    end
+
+    pd3_lower = Dground_trans-q3;
+    pd3_upper = Dground_trans+q3;
+    d3 = (pd3_upper-pd3_lower)/1000;
+    dx3(j,:) = [pd3_lower:d3:pd3_upper];
+    if skewleft == true
+        b = pd3_lower+(Dground_trans-pd3_lower)*skew;
+        pd3 = makedist('Tri',pd3_lower,b,pd3_upper);
+        pdf3(j,:) = pdf(pd3,dx3(j,:));
+    elseif skewright == true
+        b = pd3_upper-(pd3_upper-Dground_trans)*skew;
+        pd3 = makedist('Tri',pd3_lower,b,pd3_upper);
+        pdf3(j,:) = pdf(pd3,dx3(j,:));
+    else
+        pd3 = makedist('Tri',pd3_lower,Dground_trans,pd3_upper);
+        pdf3(j,:) = pdf(pd3,dx3(j,:));
+    end
     
-    [n3,xout3] = hist(U3,no_of_samples);
-    expUtilOutcome3(i) = sum(xout3.*n3)/(length(U3));
+    pd4_lower = Dground_rec-q4;
+    pd4_upper = Dground_rec+q4;
+    d4 = (pd4_upper-pd4_lower)/1000;
+    dx4(j,:) = [pd4_lower:d4:pd4_upper];
+    if skewleft == true
+        b = pd4_lower+(Dground_rec-pd4_lower)*skew;
+        pd4 = makedist('Tri',pd4_lower,b,pd4_upper);
+        pdf4(j,:) = pdf(pd4,dx4(j,:));
+    elseif skewright == true
+        b = pd4_upper-(pd4_upper-Dground_rec)*skew;
+        pd4 = makedist('Tri',pd4_lower,b,pd4_upper);
+        pdf4(j,:) = pdf(pd4,dx4(j,:));
+    else
+        pd4 = makedist('Tri',pd4_lower,Dground_rec,pd4_upper);
+        pdf4(j,:) = pdf(pd4,dx4(j,:));
+    end
     
-    [n4,xout4] = hist(U4,no_of_samples);
-    expUtilOutcome4(i) = sum(xout4.*n4)/(length(U4));
+    pd5_lower = Sat_long-q5;
+    pd5_upper = Sat_long+q5;
+    d5 = (pd5_upper-pd5_lower)/100;
+    dx5(j,:) = [pd5_lower:d5:pd5_upper];
+    if skewleft == true
+        b = pd5_lower+(Sat_long-pd5_lower)*skew;
+        pd5 = makedist('Tri',pd5_lower,b,pd5_upper);
+        pdf5(j,:) = pdf(pd5,dx5(j,:));
+    elseif skewright == true
+        b = pd5_upper-(pd5_upper-Sat_long)*skew;
+        pd5 = makedist('Tri',pd5_lower,b,pd5_upper);
+        pdf5(j,:) = pdf(pd5,dx5(j,:));
+    else
+        pd5 = makedist('Tri',pd5_lower,Sat_long,pd5_upper);
+        pdf5(j,:) = pdf(pd5,dx5(j,:));
+    end
     
+    pd6_lower = Ground_long-q6;
+    pd6_upper = Ground_long+q6;
+    d6 = (pd6_upper-pd6_lower)/1000;
+    dx6(j,:) = [pd6_lower:d6:pd6_upper];
+    if skewleft == true
+        b = pd6_lower+(Ground_long-pd6_lower)*skew;
+        pd6 = makedist('Tri',pd6_lower,b,pd6_upper);
+        pdf6(j,:) = pdf(pd6,dx6(j,:));
+    elseif skewright == true
+        b = pd6_upper-(pd6_upper-Ground_long)*skew;
+        pd6 = makedist('Tri',pd6_lower,b,pd6_upper);
+        pdf6(j,:) = pdf(pd6,dx6(j,:));
+    else
+        pd6 = makedist('Tri',pd6_lower,Ground_long,pd6_upper);
+        pdf6(j,:) = pdf(pd6,dx6(j,:));
+    end
+    
+    pd7_lower = Ground_lat-q7;
+    pd7_upper = Ground_lat+q7;
+    d7 = (pd7_upper-pd7_lower)/1000;
+    dx7(j,:) = [pd7_lower:d7:pd7_upper];
+    if skewleft == true
+        b = pd7_lower+(Ground_lat-pd7_lower)*skew;
+        pd7 = makedist('Tri',pd7_lower,b,pd7_upper);
+        pdf7(j,:) = pdf(pd7,dx7(j,:));
+    elseif skewright == true
+        b = pd7_upper-(pd7_upper-Ground_lat)*skew;
+        pd7 = makedist('Tri',pd7_lower,b,pd7_upper);
+        pdf7(j,:) = pdf(pd7,dx7(j,:));
+    else
+        pd7 = makedist('Tri',pd7_lower,Ground_lat,pd7_upper);
+        pdf7(j,:) = pdf(pd7,dx7(j,:));
+    end
+    
+    pd8_lower = Ground_long_r-q8;
+    pd8_upper = Ground_long_r+q8;
+    d8 = (pd8_upper-pd8_lower)/1000;
+    dx8(j,:) = [pd8_lower:d8:pd8_upper];
+    if skewleft == true
+        b = pd8_lower+(Ground_long_r-pd8_lower)*skew;
+        pd8 = makedist('Tri',pd8_lower,b,pd8_upper);
+        pdf8(j,:) = pdf(pd8,dx8(j,:));
+    elseif skewright == true
+        b = pd8_upper-(pd8_upper-Ground_long_r)*skew;
+        pd8 = makedist('Tri',pd8_lower,b,pd8_upper);
+        pdf8(j,:) = pdf(pd8,dx8(j,:));
+    else
+        pd8 = makedist('Tri',pd8_lower,Ground_long_r,pd8_upper);
+        pdf8(j,:) = pdf(pd8,dx8(j,:));
+    end
+    
+    pd9_lower = Ground_lat_r-q9;
+    pd9_upper = Ground_lat_r+q9;
+    d9 = (pd9_upper-pd9_lower)/1000;
+    dx9(j,:) = [pd9_lower:d9:pd9_upper];
+    if skewleft == true
+        b = pd9_lower+(Ground_lat_r-pd9_lower)*skew;
+        pd9 = makedist('Tri',pd9_lower,b,pd9_upper);
+        pdf9(j,:) = pdf(pd9,dx9(j,:));
+    elseif skewright == true
+        b = pd9_upper-(pd9_upper-Ground_lat_r)*skew;
+        pd9 = makedist('Tri',pd9_lower,b,pd9_upper);
+        pdf9(j,:) = pdf(pd9,dx9(j,:));
+    else
+        pd9 = makedist('Tri',pd9_lower,Ground_lat_r,pd9_upper);
+        pdf9(j,:) = pdf(pd9,dx9(j,:));
+    end 
+    
+    pd10_lower = Pst-q10;
+    pd10_upper = Pst+q10;
+    d10 = (pd10_upper-pd10_lower)/1000;    
+    dx10(j,:) = [pd10_lower:d10:pd10_upper];
+    if skewleft == true
+        b = pd10_lower+(Pst-pd10_lower)*skew;
+        pd10 = makedist('Tri',pd10_lower,b,pd10_upper);
+        pdf10(j,:) = pdf(pd10,dx10(j,:));
+    elseif skewright == true
+        b = pd10_upper-(pd10_upper-Pst)*skew;
+        pd10 = makedist('Tri',pd10_lower,b,pd10_upper);
+        pdf10(j,:) = pdf(pd10,dx10(j,:));
+    else
+        pd10 = makedist('Tri',pd10_lower,Pst,pd10_upper);
+        pdf10(j,:) = pdf(pd10,dx10(j,:));
+    end
+    
+    pd11_lower = Pgt-q11;
+    pd11_upper = Pgt+q11;
+    d11 = (pd11_upper-pd11_lower)/1000;
+    dx11(j,:) = [pd11_lower:d11:pd11_upper];
+    if skewleft == true
+        b = pd11_lower+(Pgt-pd11_lower)*skew;
+        pd11 = makedist('Tri',pd11_lower,b,pd11_upper);
+        pdf11(j,:) = pdf(pd11,dx11(j,:));
+    elseif skewright == true
+        b = pd11_upper-(pd11_upper-Pgt)*skew;
+        pd11 = makedist('Tri',pd11_lower,b,pd11_upper);
+        pdf11(j,:) = pdf(pd11,dx11(j,:));
+    else
+        pd11 = makedist('Tri',pd11_lower,Pgt,pd11_upper);
+        pdf11(j,:) = pdf(pd11,dx11(j,:));
+    end
+    
+    pd12_lower = f-10^2;
+    pd12_upper = f+10^3;
+    d12 = (pd12_upper-pd12_lower)/1000;    
+    dx12(j,:) = [pd12_lower:d12:pd12_upper];
+    if skewleft == true
+        b = pd12_lower+(f-pd12_lower)*skew;
+        pd12 = makedist('Tri',pd12_lower,b,pd12_upper);
+        pdf12(j,:) = pdf(pd12,dx12(j,:));
+    elseif skewright == true
+        b = pd12_upper-(pd12_upper-f)*skew;
+        pd12 = makedist('Tri',pd12_lower,b,pd12_upper);
+        pdf12(j,:) = pdf(pd12,dx12(j,:));
+    else
+        pd12 = makedist('Tri',pd12_lower,f,pd12_upper);
+        pdf12(j,:) = pdf(pd12,dx12(j,:));
+    end
+    
+    pd13_lower = fup-10^2;
+    pd13_upper = fup+10^3;
+    d13 = (pd13_upper-pd13_lower)/1000;
+    dx13(j,:) = [pd13_lower:d13:pd13_upper];
+    if skewleft == true
+        b = pd13_lower+(fup-pd13_lower)*skew;
+        pd13 = makedist('Tri',pd13_lower,b,pd13_upper);
+        pdf13(j,:) = pdf(pd13,dx13(j,:));
+    elseif skewright == true
+        b = pd13_upper-(pd13_upper-fup)*skew;
+        pd13 = makedist('Tri',pd13_lower,b,pd13_upper);
+        pdf13(j,:) = pdf(pd13,dx13(j,:));
+    else
+        pd13 = makedist('Tri',pd13_lower,fup,pd13_upper);
+        pdf13(j,:) = pdf(pd13,dx13(j,:));
+    end
+    
+    for i = 1:no_samples
+
+        UDsat_trans(i) = random(pd1,1);
+        UDsat_rec(i) = random(pd2,1);
+        UDground_trans(i) = random(pd3,1);
+        UDground_rec(i) = random(pd4,1);
+        USat_long(i) = random(pd5,1);
+        UGround_long(i) = random(pd6,1);
+        UGround_lat(i) = random(pd7,1);
+        UGround_long_r(i) = random(pd8,1);
+        UGround_lat_r(i) = random(pd9,1);
+        UPst(i) = random(pd10,1);
+        UPgt(i) = random(pd11,1);
+        Uf(i) = random(pd12,1);
+        Ufup(i) = random(pd13,1);
+
+        currentDesign(8) = UDground_rec(i);
+        currentDesign(9) = UDground_trans(i);
+        currentDesign(7) = UDsat_rec(i);
+        currentDesign(6) = UDsat_trans(i);
+        currentDesign(12) = UGround_lat(i);
+        currentDesign(14) = UGround_lat_r(i);
+        currentDesign(11) = UGround_long(i);
+        currentDesign(13) = UGround_long_r(i);
+        currentDesign(5) = UPgt(i);
+        currentDesign(4) = UPst(i);
+        currentDesign(10) = USat_long(i);
+        currentDesign(1) = Uf(i);
+        currentDesign(2) = Ufup(i);
+               
+        [y(j,i),P(j,i),S(j,i)] = satellite_objective(currentDesign);
+        y(j,i) = -y(j,i);
+        c = y(i);
+        a = -0.275e-5;
+        U(j,i) = 1E-232+(-1/a)*(exp(-a*c));
+    end
+    
+    M = mean(y(j,:));
+    Mn(j) = M;
+    
+    [n(j,:),xout(j,:)] = hist(y(j,:),no_samples);
+    hold on;
+    figure(1);
+    dx95(j,:) = quantile(y(j,:),.05);
+    plot(xout(j,:),(n(j,:)*100)/trapz(xout(j,:),n(j,:)),'color',linespec{j},'LineWidth',1.4);
+    hold off;
     
     % Utility_Exp_outcome 
-    %Exp1_ro is the value, Exp1_I is the place holder
-    [Exp1_ro(i),Exp1_I(i)]= sort(expUtilOutcome1(i),'descend');
-    [Exp2_ro(i),Exp2_I(i)]= sort(expUtilOutcome2(i),'descend');
-    [Exp3_ro(i),Exp3_I(i)]= sort(expUtilOutcome3(i),'descend');
-    [Exp4_ro(i),Exp4_I(i)]= sort(expUtilOutcome4(i),'descend');
-
-    [C1(i),I1(i)] = max(expUtilOutcome1(i));
-    [C2(i),I2(i)] = max(expUtilOutcome2(i));
-    [C3(i),I3(i)] = max(expUtilOutcome3(i));
-    [C4(i),I4(i)] = max(expUtilOutcome4(i));
+    [n_ut(j,:),xout_ut(j,:)] = hist(U(j,:),no_samples);
+    Exp(j) = sum(xout_ut(j,:).*n_ut(j,:))/length(U(j,:));
 end
 toc;
 
-% C values are the magnitude while I values are the ranking
-Design = [I1;I2;I3;I4];
 Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
-value_NoUtils = M;
-outputTable = table(value_NoUtils',expUtilOutcome1',Exp1_ro',expUtilOutcome2',Exp2_ro',...
-    expUtilOutcome3',Exp3_ro',expUtilOutcome4',Exp4_ro','RowNames',Designs,...
-    'VariableNames',{'ValueNoUtilities' 'expUtilOutcome1' 'Exp1_ro' 'expUtilOutcome2'...
-    'Exp2_ro' 'expUtilOutcome3' 'Exp3_ro' 'expUtilOutcome4' 'Exp4_ro'})
+outputTable = table(Mn',Exp',...
+    'RowNames',Designs,...
+    'VariableNames',{'Value' 'ExpectedUtility'})
+    
+% Graph Attribut PDFs 
+figure(3)
+for j = 1:sdp
+    title(sprintf('Dsat trans,Design %j', j));
+    plot(dx1(j,:),pdf1(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on; 
+    color_index = color_index+1;
+    legend(Legend);
+end
+   
+figure(4)
+for j = 1:sdp
+    title(sprintf('Dsat rec,Design %j', j));
+    plot(dx2(j,:),pdf2(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(5)
+for j = 1:sdp
+    title(sprintf('Dground trans,Design %j', j));
+    plot(dx3(j,:),pdf3(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(6)
+for j = 1:sdp
+    title(sprintf('Dground rec,Design %j', j));
+    plot(dx4(j,:),pdf4(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(7)
+for j = 1:sdp
+    title(sprintf('Sat long,Design %j', j));
+    plot(dx5(j,:),pdf5(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(8)
+for j = 1:sdp
+    title(sprintf('Ground long,Design %j', j));
+    plot(dx6(j,:),pdf6(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(9)
+for j = 1:sdp
+    title(sprintf('Ground lat,Design %j', j));
+    plot(dx7(j,:),pdf7(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(10)
+for j = 1:sdp
+    title(sprintf('Ground long r,Design %j', j));
+    plot(dx8(j,:),pdf8(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(11)
+for j = 1:sdp
+    title(sprintf('Ground lat r,Design %j', j));
+    plot(dx9(j,:),pdf9(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(12)
+for j = 1:sdp
+    title(sprintf('Pst,Design %j', j));
+    plot(dx10(j,:),pdf10(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(13)
+for j = 1:sdp
+    title(sprintf('Pgt,Design %j', j));
+    plot(dx11(j,:),pdf11(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(14)
+for j = 1:sdp
+    title(sprintf('f,Design %j', j));
+    plot(dx12(j,:),pdf12(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
+
+figure(15)
+for j = 1:sdp
+    title(sprintf('fup,Design %j', j));
+    plot(dx13(j,:),pdf13(j,:),'color',linespec{j},'linestyle',lins{j},'LineWidth',2.5);
+    hold on;
+    color_index = color_index+1;
+    legend(Legend);
+end
