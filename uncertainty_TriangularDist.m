@@ -58,7 +58,27 @@ P = zeros(sdp,no_samples);
 S = zeros(sdp,no_samples);
 n = zeros(sdp,no_samples);
 xout = zeros(sdp,no_samples);
-U = zeros(sdp,no_samples);
+U1 = zeros(sdp,no_samples);
+U2 = zeros(sdp,no_samples);
+U3 = zeros(sdp,no_samples);
+U4 = zeros(sdp,no_samples);
+U5 = zeros(sdp,no_samples);
+U6 = zeros(sdp,no_samples);
+
+% Utility Parameters
+a1 = 0.00000009;
+a2 = 0.00000001;
+a3 = 0;
+a4 = -0.000000005;
+a5 = -0.00000009;
+R1 = 10*10^6;
+R2 = -10*10^6;
+b1 = 350*10^6;
+alpha = 5;
+alpha1 = -0.01;
+alpha2 = alpha1+0.1;
+alpha3 = alpha2+0.1;
+alpha4 = alpha3+0.1;
 
 %Preallocating graph information
 CM = jet(sdp);
@@ -156,9 +176,9 @@ for j =1:sdp
         q11 =((4*Pgt)/695)-(105/139);
     end
     
-    skew = 0.25;
+    skew = 0.75;
     skewleft = false;
-    skewright = false;
+    skewright = true;
     
     pd1_lower = Dsat_trans-q1;
     pd1_upper = Dsat_trans+q1;
@@ -169,7 +189,7 @@ for j =1:sdp
         pd1 = makedist('Tri',pd1_lower,b,pd1_upper);
         pdf1(j,:) = pdf(pd1,dx1(j,:));
     elseif skewright == true
-        b = pd1_upper-(pd1_upper-Dsat_trans)*skew;
+        b = pd1_upper-(pd1_upper-Dsat_trans)*(1-skew);
         pd1 = makedist('Tri',pd1_lower,b,pd1_upper);
         pdf1(j,:) = pdf(pd1,dx1(j,:));
     else
@@ -186,7 +206,7 @@ for j =1:sdp
         pd2 = makedist('Tri',pd2_lower,b,pd2_upper);
         pdf2(j,:) = pdf(pd2,dx2(j,:));
     elseif skewright == true
-        b = pd2_upper-(pd2_upper-Dsat_rec)*skew;
+        b = pd2_upper-(pd2_upper-Dsat_rec)*(1-skew);
         pd2 = makedist('Tri',pd2_lower,b,pd2_upper);
         pdf2(j,:) = pdf(pd2,dx2(j,:));
     else
@@ -203,7 +223,7 @@ for j =1:sdp
         pd3 = makedist('Tri',pd3_lower,b,pd3_upper);
         pdf3(j,:) = pdf(pd3,dx3(j,:));
     elseif skewright == true
-        b = pd3_upper-(pd3_upper-Dground_trans)*skew;
+        b = pd3_upper-(pd3_upper-Dground_trans)*(1-skew);
         pd3 = makedist('Tri',pd3_lower,b,pd3_upper);
         pdf3(j,:) = pdf(pd3,dx3(j,:));
     else
@@ -220,7 +240,7 @@ for j =1:sdp
         pd4 = makedist('Tri',pd4_lower,b,pd4_upper);
         pdf4(j,:) = pdf(pd4,dx4(j,:));
     elseif skewright == true
-        b = pd4_upper-(pd4_upper-Dground_rec)*skew;
+        b = pd4_upper-(pd4_upper-Dground_rec)*(1-skew);
         pd4 = makedist('Tri',pd4_lower,b,pd4_upper);
         pdf4(j,:) = pdf(pd4,dx4(j,:));
     else
@@ -237,7 +257,7 @@ for j =1:sdp
         pd5 = makedist('Tri',pd5_lower,b,pd5_upper);
         pdf5(j,:) = pdf(pd5,dx5(j,:));
     elseif skewright == true
-        b = pd5_upper-(pd5_upper-Sat_long)*skew;
+        b = pd5_upper-(pd5_upper-Sat_long)*(1-skew);
         pd5 = makedist('Tri',pd5_lower,b,pd5_upper);
         pdf5(j,:) = pdf(pd5,dx5(j,:));
     else
@@ -254,7 +274,7 @@ for j =1:sdp
         pd6 = makedist('Tri',pd6_lower,b,pd6_upper);
         pdf6(j,:) = pdf(pd6,dx6(j,:));
     elseif skewright == true
-        b = pd6_upper-(pd6_upper-Ground_long)*skew;
+        b = pd6_upper-(pd6_upper-Ground_long)*(1-skew);
         pd6 = makedist('Tri',pd6_lower,b,pd6_upper);
         pdf6(j,:) = pdf(pd6,dx6(j,:));
     else
@@ -271,7 +291,7 @@ for j =1:sdp
         pd7 = makedist('Tri',pd7_lower,b,pd7_upper);
         pdf7(j,:) = pdf(pd7,dx7(j,:));
     elseif skewright == true
-        b = pd7_upper-(pd7_upper-Ground_lat)*skew;
+        b = pd7_upper-(pd7_upper-Ground_lat)*(1-skew);
         pd7 = makedist('Tri',pd7_lower,b,pd7_upper);
         pdf7(j,:) = pdf(pd7,dx7(j,:));
     else
@@ -288,7 +308,7 @@ for j =1:sdp
         pd8 = makedist('Tri',pd8_lower,b,pd8_upper);
         pdf8(j,:) = pdf(pd8,dx8(j,:));
     elseif skewright == true
-        b = pd8_upper-(pd8_upper-Ground_long_r)*skew;
+        b = pd8_upper-(pd8_upper-Ground_long_r)*(1-skew);
         pd8 = makedist('Tri',pd8_lower,b,pd8_upper);
         pdf8(j,:) = pdf(pd8,dx8(j,:));
     else
@@ -305,7 +325,7 @@ for j =1:sdp
         pd9 = makedist('Tri',pd9_lower,b,pd9_upper);
         pdf9(j,:) = pdf(pd9,dx9(j,:));
     elseif skewright == true
-        b = pd9_upper-(pd9_upper-Ground_lat_r)*skew;
+        b = pd9_upper-(pd9_upper-Ground_lat_r)*(1-skew);
         pd9 = makedist('Tri',pd9_lower,b,pd9_upper);
         pdf9(j,:) = pdf(pd9,dx9(j,:));
     else
@@ -322,7 +342,7 @@ for j =1:sdp
         pd10 = makedist('Tri',pd10_lower,b,pd10_upper);
         pdf10(j,:) = pdf(pd10,dx10(j,:));
     elseif skewright == true
-        b = pd10_upper-(pd10_upper-Pst)*skew;
+        b = pd10_upper-(pd10_upper-Pst)*(1-skew);
         pd10 = makedist('Tri',pd10_lower,b,pd10_upper);
         pdf10(j,:) = pdf(pd10,dx10(j,:));
     else
@@ -339,7 +359,7 @@ for j =1:sdp
         pd11 = makedist('Tri',pd11_lower,b,pd11_upper);
         pdf11(j,:) = pdf(pd11,dx11(j,:));
     elseif skewright == true
-        b = pd11_upper-(pd11_upper-Pgt)*skew;
+        b = pd11_upper-(pd11_upper-Pgt)*(1-skew);
         pd11 = makedist('Tri',pd11_lower,b,pd11_upper);
         pdf11(j,:) = pdf(pd11,dx11(j,:));
     else
@@ -356,7 +376,7 @@ for j =1:sdp
         pd12 = makedist('Tri',pd12_lower,b,pd12_upper);
         pdf12(j,:) = pdf(pd12,dx12(j,:));
     elseif skewright == true
-        b = pd12_upper-(pd12_upper-f)*skew;
+        b = pd12_upper-(pd12_upper-f)*(1-skew);
         pd12 = makedist('Tri',pd12_lower,b,pd12_upper);
         pdf12(j,:) = pdf(pd12,dx12(j,:));
     else
@@ -373,7 +393,7 @@ for j =1:sdp
         pd13 = makedist('Tri',pd13_lower,b,pd13_upper);
         pdf13(j,:) = pdf(pd13,dx13(j,:));
     elseif skewright == true
-        b = pd13_upper-(pd13_upper-fup)*skew;
+        b = pd13_upper-(pd13_upper-fup)*(1-skew);
         pd13 = makedist('Tri',pd13_lower,b,pd13_upper);
         pdf13(j,:) = pdf(pd13,dx13(j,:));
     else
@@ -415,7 +435,12 @@ for j =1:sdp
         y(j,i) = -y(j,i);
         c = y(i);
         a = -0.275e-5;
-        U(j,i) = 1E-232+(-1/a)*(exp(-a*c));
+        U1(j,i) = -(1/a1)*exp(-a1*y(i));
+        U2(j,i) = -(1/a2)*exp(-a2*y(i));
+        U3(j,i) = y(i).^(1/8);
+        U4(j,i) = (1-exp(-(y(i)-a3)./R1))/(1-exp(-(b1-a3)./R1));
+        U5(j,i) = (1-exp(-(y(i)-a3)./R2))/(1-exp(-(b1-a3)./R2));
+        U6(j,i) = (1/alpha)*y(i).^alpha;
     end
     
     M = mean(y(j,:));
@@ -429,15 +454,31 @@ for j =1:sdp
     hold off;
     
     % Utility_Exp_outcome 
-    [n_ut(j,:),xout_ut(j,:)] = hist(U(j,:),no_samples);
-    Exp(j) = sum(xout_ut(j,:).*n_ut(j,:))/length(U(j,:));
+    [n_ut1(j,:),xout_ut1(j,:)] = hist(U1(j,:),no_samples);
+    Exp1(j) = sum(xout_ut1(j,:).*n_ut1(j,:))/length(U1(j,:));
+    
+    [n_ut2(j,:),xout_ut2(j,:)] = hist(U2(j,:),no_samples);
+    Exp2(j) = sum(xout_ut2(j,:).*n_ut2(j,:))/length(U2(j,:));
+    
+    [n_ut3(j,:),xout_ut3(j,:)] = hist(U3(j,:),no_samples);
+    Exp3(j) = sum(xout_ut3(j,:).*n_ut3(j,:))/length(U3(j,:));
+    
+    [n_ut4(j,:),xout_ut4(j,:)] = hist(U4(j,:),no_samples);
+    Exp4(j) = sum(xout_ut4(j,:).*n_ut4(j,:))/length(U4(j,:));
+    
+    [n_ut5(j,:),xout_ut5(j,:)] = hist(U5(j,:),no_samples);
+    Exp5(j) = sum(xout_ut5(j,:).*n_ut5(j,:))/length(U5(j,:));
+    
+    [n_ut6(j,:),xout_ut6(j,:)] = hist(U6(j,:),no_samples);
+    Exp6(j) = sum(xout_ut6(j,:).*n_ut6(j,:))/length(U6(j,:));
 end
 toc;
 
 Designs = {'Design 1';'Design 2';'Design 3';'Design 4'};
-outputTable = table(Mn',Exp',...
+outputTable = table(Mn',Exp1',Exp2',Exp3',Exp4',Exp5',Exp6',...
     'RowNames',Designs,...
-    'VariableNames',{'Value' 'ExpectedUtility'})
+    'VariableNames',{'Value' 'ExpectedUtility1' 'ExpectedUtility2'...
+    'ExpectedUtility3' 'ExpectedUtility4' 'ExpectedUtility5' 'ExpectedUtility6'})
     
 % Graph Attribut PDFs 
 figure(3)
